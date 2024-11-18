@@ -6,6 +6,7 @@ import User from "../../../../models/User";
 import { stat, mkdir, writeFile } from "fs/promises";
 import { extname, join } from "path";
 import { sanitizeFilename } from "../../../../utils/replaceName";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req) {
   try {
@@ -13,14 +14,14 @@ export async function POST(req) {
   } catch (error) {
     console.log("مشکلی در سرور پیش آمده است");
   }
-  const session = await getServerSession(req);
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json(
       { error: "لطفا وارد حساب کاربری خود شوید" },
       { status: 401 }
     );
   }
-  const user = await User.findOne({ email: session.user.phone });
+  const user = await User.findOne({ phone : session.user.phone });
   if (!user) {
     return NextResponse.json(
       { error: "حساب کاربری یافت نشد" },
