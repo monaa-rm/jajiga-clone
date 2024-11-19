@@ -7,9 +7,24 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { setPointHome } from "@/store/slices/filterSlice";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const SearchResidanceBoxItem = ({ residance, liked_items }) => {
-  const [favItem, setFavItem] = useState(liked_items.includes(residance._id));
+  const { data: session, status } = useSession();
+  console.log(liked_items);
+  const [favItem, setFavItem] = useState();
+  useEffect(() => {
+    setFavItem(
+      status != "authenticated"
+        ? liked_items.includes(residance._id) ||
+            JSON.parse(localStorage.getItem("likedResidances"))?.includes(
+              residance._id
+            )
+        : JSON.parse(localStorage.getItem("likedResidances"))?.includes(
+            residance._id
+          )
+    );
+  }, [liked_items]);
   const dispatch = useDispatch();
   const addToLocalStorage = (id) => {
     let likedResidances =
