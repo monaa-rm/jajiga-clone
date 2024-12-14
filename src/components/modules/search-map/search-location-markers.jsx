@@ -39,7 +39,8 @@ const SearchLocationMarker = ({ position, data }) => {
     <>
       <Marker position={[data?.location[0], data?.location[1]]} icon={pointHome == data._id ? pointIcon : divIcon}>
         <Popup maxWidth="350" minWidth="350">
-          <SearchmapResidanceBox data={data} />
+          mio
+          {/* <SearchmapResidanceBox data={data} /> */}
         </Popup>
       </Marker>
     </>
