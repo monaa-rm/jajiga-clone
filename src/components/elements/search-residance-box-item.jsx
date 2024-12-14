@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 const SearchResidanceBoxItem = ({ residance, liked_items }) => {
   const { data: session, status } = useSession();
-  console.log(liked_items);
+
   const [favItem, setFavItem] = useState();
   useEffect(() => {
     setFavItem(

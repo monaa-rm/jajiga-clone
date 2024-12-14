@@ -23,7 +23,7 @@ const SearchLocationMarker = ({ position, data }) => {
     //   iconAnchor: [40, 40] // تنظیم نقطه لنگر به مرکز دایره
     // });
 
-  //set divicon
+  // set divicon
   const divIcon = new Icon({
     iconUrl: "/images/location-marker-blue.png",
     iconSize: [40, 40],

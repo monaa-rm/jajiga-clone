@@ -11,12 +11,12 @@ const SearchmapResidanceBox = ({ data }) => {
       className=" cursor-pointer w-full h-[110] font-[vazirRegular] overflow-hidden  flex justify-start items-center gap-1"
     >
       <div className="w-[100px] h-[100px] relative rounded-2xl">
-        <Image
+        {/* <Image
           src={data.images[0]}
           alt="image"
           fill
           className="object-cover  rounded-xl"
-        />
+        /> */}
       </div>
       <div className=" flex flex-col gap-2 justify-between items-start">
         <h3 className="text-gray-700 text-start line-clamp-1 w-full font-bold">
