@@ -20,6 +20,8 @@ import {
   setSelectedAlLCities,
   setSelectedCities,
 } from "@/store/slices/headerListSlice";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import { debounce } from "lodash";
 
 const SearchMap = ({ data }) => {
   const bounds = useSelector((store) => store.filterSlice.bounds);
@@ -27,28 +29,28 @@ const SearchMap = ({ data }) => {
   const dispatch = useDispatch();
 
   const position = [33.548538, 53.2659074];
-
-  const MapEvents = () => {
-    useMapEvents({
-      moveend: (event) => {
-        const bnds = event.target.getBounds();
-        const boundsDetails = {
-          ne_lat: bnds?.getNorthEast()?.lat,
-          ne_lng: bnds?.getNorthEast()?.lng,
-          sw_lat: bnds?.getSouthWest()?.lat,
-          sw_lng: bnds?.getSouthWest()?.lng,
-        };
-        dispatch(setBounds(boundsDetails));
-      },
-    });
-    return null;
-  };
+  const updateBounds = debounce((bnds) => {
+    const boundsDetails = {
+       ne_lat: bnds?.getNorthEast()?.lat,
+       ne_lng: bnds?.getNorthEast()?.lng,
+       sw_lat: bnds?.getSouthWest()?.lat,
+       sw_lng: bnds?.getSouthWest()?.lng,
+    };
+    dispatch(setBounds(boundsDetails));
+ }, 300);
+ const MapEvents = () => {
+  useMapEvents({
+     moveend: (event) => {
+        updateBounds(event.target.getBounds());
+     },
+  });
+  return null;
+};
 
   const handleSearch = async () => {
     if (bounds) {
       dispatch(dispatch(setSelectedAlLCities([])));
       dispatch(setSendBounds(!sendBounds ? -1 : sendBounds * -1));
-
     }
   };
 
@@ -66,15 +68,18 @@ const SearchMap = ({ data }) => {
         style={{ width: "100%", height: "100%", zIndex: "0" }}
         zoom={6}
         scrollWheelZoom={true}
+        preferCanvas={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapEvents />
-        {data?.map((item, i) => (
-          <SearchLocationMarker key={i} data={item} />
-        ))}
+        <MarkerClusterGroup maxClusterRadius={10}>
+          {data?.map((item, i) => (
+            <SearchLocationMarker key={i} data={item} />
+          ))}
+        </MarkerClusterGroup>
       </MapContainer>
     </div>
   );
