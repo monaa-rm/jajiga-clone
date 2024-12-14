@@ -27,12 +27,12 @@ const SearchLocationMarker = ({ position, data }) => {
   const divIcon = new Icon({
     iconUrl: "/images/location-marker-blue.png",
     iconSize: [40, 40],
-    shadowRetinaUrl: iconRetinaUrl,
+    // shadowRetinaUrl: iconRetinaUrl,
   });
   const pointIcon = new Icon({
     iconUrl: "/images/location-marker-yellow.png",
     iconSize: [40, 40],
-    shadowRetinaUrl: iconRetinaUrl,
+    // shadowRetinaUrl: iconRetinaUrl,
   });
 
   return (
