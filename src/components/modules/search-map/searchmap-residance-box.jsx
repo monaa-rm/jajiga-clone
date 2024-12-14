@@ -25,7 +25,7 @@ const SearchmapResidanceBox = ({ data }) => {
         <div className="flex justify-start gap-0 items-center text-start text-gray-600  text-sm">
           <span className="flex">{data.room} خوابه.</span>
           <span className="flex">{data.area} متر. </span>
-          <span className="flex">تا {data.max_capacity} مهمان</span>
+          <span className="flex">تا {data.maxCapacity} مهمان</span>
           <div className="flex gap-[1px]">
             <FaStar className="w-3 h-3 text-yellow-500" />
             {data.rating}.({data.rating_number.length} نظر)

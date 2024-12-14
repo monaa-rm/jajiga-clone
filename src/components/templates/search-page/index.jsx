@@ -137,9 +137,6 @@ const SearchPage = ({ liked_items }) => {
       !showCalendar &&
       !showGuestNum &&
       !showBedroom &&
-      ////////////
-      // bedroomFilter.room != 0 &&
-      // bedroomFilter.bed != 0 &&
       !showCost &&
       !showProperty &&
       !showType &&
@@ -199,11 +196,7 @@ const SearchPage = ({ liked_items }) => {
           <DynamicSearchMap data={searchedData} />
           <div
             className={`${
-<<<<<<< HEAD
               !enabled ? "hidden" : "flex "
-=======
-              !enabled ? "hidden" : "flex"
->>>>>>> 55239ed50863a29f7d7715164387cd947bedd787
             } fixed md:hidden w-full h-16 bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
           ></div>
           <button
