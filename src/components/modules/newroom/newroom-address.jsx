@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { provinceList } from "../../../../utils/provinces";
@@ -6,15 +6,20 @@ import { FaAngleDown } from "react-icons/fa6";
 import { CiLocationOn } from "react-icons/ci";
 import { citiesList } from "../../../../utils/cities";
 import { useDispatch, useSelector } from "react-redux";
-import { setAddress } from "@/store/slices/newRoomSlice";
+import { setAddress, setProvinceCities } from "@/store/slices/newRoomSlice";
 
 const NewroomAddress = () => {
   const [showprovinceList, setShowProvinceList] = useState(false);
   const [showCityList, setShowCityList] = useState(false);
-  const [provinceCities, setProvinceCities] = useState([]);
-  const province = useSelector(store => store.newRoomSlice.address.province)
-  const city = useSelector(store => store.newRoomSlice.address.city)
-  const exactAddress = useSelector(store => store.newRoomSlice.address.exactAddress)
+  // const [provinceCities, setProvinceCities] = useState([]);
+  const province = useSelector((store) => store.newRoomSlice.address.province);
+  const provinceCities = useSelector(
+    (store) => store.newRoomSlice.provinceCities
+  );
+  const city = useSelector((store) => store.newRoomSlice.address.city);
+  const exactAddress = useSelector(
+    (store) => store.newRoomSlice.address.exactAddress
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     const handleClick = (event) => {
@@ -30,7 +35,6 @@ const NewroomAddress = () => {
     };
   }, [showprovinceList]);
   useEffect(() => {
-   
     const handleClick = (event) => {
       if (!event.target.closest("#cityId")) {
         setShowCityList(false);
@@ -86,11 +90,11 @@ const NewroomAddress = () => {
               {provinceList.map((item, i) => (
                 <div
                   onClick={() => {
-                    dispatch(setAddress({province : item , city : ""}))
+                    dispatch(setAddress({ province: item, city: "" }));
                     setShowProvinceList(false);
-                    setProvinceCities(
+                    dispatch(setProvinceCities(
                       citiesList.filter((city) => city.province_id == item.id)
-                    );
+                    ));
                   }}
                   key={i}
                   className={`px-3 py-3 ${
@@ -151,7 +155,7 @@ const NewroomAddress = () => {
                 provinceCities?.map((item, i) => (
                   <div
                     onClick={() => {
-                      dispatch(setAddress({ city : item}))
+                      dispatch(setAddress({ city: item }));
 
                       setShowCityList(false);
                     }}
@@ -171,13 +175,17 @@ const NewroomAddress = () => {
         <span className=" w-44  ">آدرس دقیق</span>
         <div className="w-full md:w-auto flex flex-col justify-start items-start gap-2">
           <textarea
-          value={exactAddress}
-          onChange={(e) => dispatch(setAddress({exactAddress : e.target.value }))
-        }
+            value={exactAddress}
+            onChange={(e) =>
+              dispatch(setAddress({ exactAddress: e.target.value }))
+            }
             className=" p-2 w-full max-w-full md:w-80 max-h-80 min-h-11 rounded-lg border outline-none border-gray-300 focus:border-gray-400 hover:border-gray-400"
             rows={5}
           />
-          <span className=" text-gray-500 w-full max-w-full md:max-w-80 text-justify text-xs" dir="rtl">
+          <span
+            className=" text-gray-500 w-full max-w-full md:max-w-80 text-justify text-xs"
+            dir="rtl"
+          >
             آدرس اقامتگاه را با جزییات کامل وارد کنید تا میهمان پس از رزرو به
             راحتی بتوانند اقامتگاه را پیدا کنند.
           </span>

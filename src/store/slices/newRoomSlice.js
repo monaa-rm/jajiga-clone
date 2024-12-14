@@ -1,5 +1,113 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+const initialState = {
+  activeItem: 0,
+  sideSetting: false,
+  hiddenItems: [7, 8, 9, 10],
+  filledItems: {
+    address: false,
+    map: false,
+    images: false,
+    about: false,
+    area: false,
+    capacity: false,
+    bedroom: false,
+    options: false,
+    checktime: false,
+    price: false,
+    rules: false,
+  },
+  address: {
+    province: "",
+    city: "",
+    exactAddress: "",
+  },
+  location: [],
+  images: [],
+  about: [],
+  exclusive: null,
+  type: {},
+  region: {},
+  capacity: 1,
+  maxCapacity: 1,
+  area: "",
+  yard: "",
+  room: 0,
+  disabledPeople: false,
+  bed: [{ mattress: 0, singlebed: 0, dubblebed: 0 }],
+  options: [
+    { name: "pool", hasIt: false, description: "" },
+    {
+      name: "parking",
+      hasIt: false,
+      description: "",
+    },
+    {
+      name: "billiard",
+      hasIt: false,
+      description: "",
+    },
+    { name: "toilet", hasIt: false, description: "" },
+    { name: "vacuumCleaner", hasIt: false, description: "" },
+    { name: "shower", hasIt: false, description: "" },
+    {
+      name: "heatingSystem",
+      hasIt: false,
+      description: "",
+    },
+    {
+      name: "coolingSystem",
+      hasIt: false,
+      description: "",
+    },
+    { name: "gasStove", hasIt: false, description: "" },
+    { name: "kitchen", hasIt: false, description: "" },
+    { name: "kebab", hasIt: false, description: "" },
+    {
+      name: "sofa",
+      hasIt: false,
+      description: "",
+    },
+    { name: "tv", hasIt: false, description: "" },
+    {
+      name: "lunchtable",
+      hasIt: false,
+      description: "",
+    },
+    {
+      name: "cleanstuff",
+      hasIt: false,
+      description: "",
+    },
+    { name: "closetDrawer", hasIt: false, description: "" },
+    {
+      name: "electricity",
+      hasIt: false,
+      description: "",
+    },
+    { name: "onDay", hasIt: false, description: "" },
+    { name: "elevator", hasIt: false, description: "" },
+    { name: "microwave", hasIt: false, description: "" },
+    { name: "wifi", hasIt: false, description: "" },
+    { name: "phone", hasIt: false, description: "" },
+    { name: "fridge", hasIt: false, description: "" },
+    { name: "iron", hasIt: false, description: "" },
+    { name: "water", hasIt: false, description: "" },
+  ],
+  checkTime: { arrivaltime: "12 ظهر", depurturetime: "11 صبح" },
+  price: {
+    holidays: 0,
+    notHolidays: 0,
+    extra: 0,
+  },
+  discount: 0,
+  rules: {
+    pet: false,
+    smoke: false,
+    party: false,
+    extrarules: [],
+  },
+  provinceCities: [],
+};
 const newRoomSlice = createSlice({
   name: "newRoom",
 
@@ -36,7 +144,7 @@ const newRoomSlice = createSlice({
     area: "",
     yard: "",
     room: 0,
-    disabledPeople : false,
+    disabledPeople: false,
     bed: [{ mattress: 0, singlebed: 0, dubblebed: 0 }],
     options: [
       { name: "pool", hasIt: false, description: "" },
@@ -110,8 +218,9 @@ const newRoomSlice = createSlice({
       party: false,
       extrarules: [],
     },
+    provinceCities: [],
   },
-
+  initialState,
   reducers: {
     setActive: (state, action) => {
       state.activeItem = action.payload;
@@ -184,7 +293,6 @@ const newRoomSlice = createSlice({
     },
     setCapacity: (state, action) => {
       state.capacity = action.payload;
-
     },
     setMaxCapacity: (state, action) => {
       state.maxCapacity = action.payload;
@@ -286,6 +394,9 @@ const newRoomSlice = createSlice({
     setDisabledPeople: (state, action) => {
       state.disabledPeople = action.payload;
     },
+    setProvinceCities: (state, action) => {
+      state.provinceCities = action.payload;
+    },
     setResRules: (state, action) => {
       const { rule, value } = action.payload;
       if (rule !== "extrarules") {
@@ -294,10 +405,14 @@ const newRoomSlice = createSlice({
         state.rules.extrarules = [value];
       }
     },
+    resetState: (state) => {
+      return { ...initialState };
+    }, // اکشن برای بازنشانی
   },
 });
 
 export const {
+  resetState,
   setActive,
   setHiddenItems,
   setSideSetting,
@@ -323,5 +438,6 @@ export const {
   setResRules,
   setDisabledPeople,
   setResRuleActive,
+  setProvinceCities,
 } = newRoomSlice.actions;
 export default newRoomSlice.reducer;

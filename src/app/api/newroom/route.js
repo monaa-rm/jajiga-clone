@@ -3,9 +3,13 @@ import connectDB from "../../../../utils/connectDb";
 import Room from "../../../../models/Room";
 import { getServerSession } from "next-auth";
 import User from "../../../../models/User";
+
 import { stat, mkdir, writeFile } from "fs/promises";
 import { extname, join } from "path";
 import { sanitizeFilename } from "../../../../utils/replaceName";
+import { authOptions }  from "../auth/[...nextauth]/route";
+
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 export async function POST(req) {
   try {
@@ -13,14 +17,15 @@ export async function POST(req) {
   } catch (error) {
     console.log("مشکلی در سرور پیش آمده است");
   }
-  const session = await getServerSession(req);
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json(
       { error: "لطفا وارد حساب کاربری خود شوید" },
       { status: 401 }
     );
   }
-  const user = await User.findOne({ email: session.user.phone });
+  console.log("session", session);
+  const user = await User.findOne({ phone: session.user.phone });
   if (!user) {
     return NextResponse.json(
       { error: "حساب کاربری یافت نشد" },
@@ -49,7 +54,6 @@ export async function POST(req) {
   const discount = await formData.get("discount");
   const rules = await formData.get("rules");
 
-
   const images = [];
   let index = 0;
   let finalFilePaths = [];
@@ -61,40 +65,71 @@ export async function POST(req) {
   }
   for (const imgFile of images) {
     const buffer = Buffer.from(await imgFile.arrayBuffer());
-    const pathDist = join(process.cwd(), "/public/images/residanceImages");
-    const relativeUploadDir = `${imgFile.name}-${Date.now().toString()}`;
-    const uploadDir = join(pathDist, relativeUploadDir);
+    // const pathDist = join(process.cwd(), "/public/images/residanceImages");
+    // const relativeUploadDir = `${imgFile.name}-${Date.now().toString()}`;
+    // const uploadDir = join(pathDist, relativeUploadDir);
 
-    try {
-      await stat(uploadDir);
-    } catch (error) {
-      if (error.code === "ENOENT") {
-        await mkdir(uploadDir, { recursive: true });
-      } else {
-        console.error(
-          "Error while trying to create directory when uploading a file",
-          e
-        );
+    // try {
+    //   await stat(uploadDir);
+    // } catch (error) {
+    //   if (error.code === "ENOENT") {
+    //     await mkdir(uploadDir, { recursive: true });
+    //   } else {
+    //     console.error(
+    //       "Error while trying to create directory when uploading a file",
+    //       e
+    //     );
 
-        return NextResponse.json(
-          { error: `Something went wrong.${error}` },
-          { status: 500 }
-        );
-      }
-    }
+    //     return NextResponse.json(
+    //       { error: `Something went wrong.${error}` },
+    //       { status: 500 }
+    //     );
+    //   }
+    // }
     const uniqueSuffix = `${Date.now()}_${Math.round(Math.random() * 1e9)}`;
     const fileExtension = extname(imgFile.name);
     const originalFilename = imgFile.name.replace(/\.[^/.]+$/, "");
     const sanitizedFilename = sanitizeFilename(originalFilename);
     const filename = `${sanitizedFilename}_${uniqueSuffix}${fileExtension}`;
-    await writeFile(`${uploadDir}/${filename}`, buffer);
+    /////////// await writeFile(`${uploadDir}/${filename}`, buffer);
 
-    const finalFilePath =
-      process.env.NEXT_PUBLIC_IMAGE_PATH + `${relativeUploadDir}/${filename}`;
-    finalFilePaths.push(finalFilePath);
+    const client = new S3Client({
+      region: "default",
+      endpoint: process.env.LIARA_ENDPOINT,
+      credentials: {
+        accessKeyId: process.env.LIARA_ACCESS_KEY,
+        secretAccessKey: process.env.LIARA_SECRET_KEY,
+      },
+    });
+
+    const params = {
+      Body: buffer,
+      Bucket: process.env.LIARA_BUCKET_NAME,
+      Key: "jajiga-rooms" + filename,
+    };
+
+    // async/await
+    try {
+      await client.send(new PutObjectCommand(params));
+    } catch (error) {
+      console.log(error);
+    }
+
+    // callback
+    client.send(new PutObjectCommand(params), (error, data) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+        const finalFilePath = `${process.env.GOAL_HOST_URL}/jajiga-rooms/${filename}`
+        finalFilePaths.push(finalFilePath);
+      }
+    });
+    // const finalFilePath =
+    //   process.env.NEXT_PUBLIC_IMAGE_PATH + `${relativeUploadDir}/${filename}`;
   }
   // send to database-----------------
-
+  console.log("user-------------", user);
   const newProfile = await Room.create({
     address: JSON.parse(address),
     location: JSON.parse(location),

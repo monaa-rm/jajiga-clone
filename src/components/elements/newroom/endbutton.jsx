@@ -1,9 +1,10 @@
 "use client";
 
+import { resetState } from "@/store/slices/newRoomSlice";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
   const byteCharacters = atob(base64.split(",")[1]);
@@ -23,6 +24,7 @@ const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
 
 const Endbutton = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const address = useSelector((store) => store.newRoomSlice.address);
   const location = useSelector((store) => store.newRoomSlice.location);
   const about = useSelector((store) => store.newRoomSlice.about);
@@ -93,6 +95,7 @@ const Endbutton = () => {
         body: formData,
       });
       if (res.status == 201) {
+        dispatch(resetState());
         router.push("/myrooms");
       }
     } catch (error) {

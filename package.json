@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.705.0",
     "@reduxjs/toolkit": "^2.2.3",
     "@smastrom/react-rating": "^1.5.0",
     "@types/react-star-rating-component": "^1.4.4",
+    "aws-sdk": "^2.1692.0",
     "bcryptjs": "^2.4.3",
     "clipboard-copy": "^4.0.1",
     "immutability-helper": "^3.1.1",

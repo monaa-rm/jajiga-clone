@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: [
+      "mernblogbucketimage.storage.iran.liara.space"
+    ],
     remotePatterns: [
       {
         protocol: 'http',
