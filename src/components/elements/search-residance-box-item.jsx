@@ -135,7 +135,7 @@ const SearchResidanceBoxItem = ({ residance, liked_items }) => {
         <div className="flex justify-start gap-1 items-center text-start text-gray-500 text-sm">
           <span className="flex">{residance.room} خوابه.</span>
           <span className="flex">{residance.area} متر.</span>
-          <span className="flex">تا {residance.max_capacity} مهمان</span>
+          <span className="flex">تا {residance.maxCapacity} مهمان</span>
           <div className="flex items-center gap-[1px]">
             <FaStar className="w-3 h-3 text-yellow-500" />
             {residance.rating}.({residance.rating_number.length} نظر)

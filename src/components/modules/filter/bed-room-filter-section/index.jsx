@@ -39,7 +39,7 @@ const BedRoomFilterSection = () => {
         className={`hidden lg:flex gap-1 justify-center items-center px-3 sm:px-3 md:px-2 lg:px-1 xl:px-3  py-2 rounded-full 
               border font-[vazirRegular] transition-all
               ${
-                bedroomActive
+                bedroomActive && (bed_num != 0 || room_num != 0 )
                   ? "border-yellow-600 bg-yellow-50 hover:bg-yellow-100 "
                   : "border-gray-200 bg-gray-50 hover:bg-gray-200 sm:min-w-min hover:bg-opacity-50"
               }

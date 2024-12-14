@@ -15,7 +15,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnabled, setIsSearching } from "@/store/slices/filterSlice";
 
-const SearchPage = ({liked_items}) => {
+const SearchPage = ({ liked_items }) => {
   const [searchedData, setSearchedData] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [totalRooms, setTotalRooms] = useState(0);
@@ -54,7 +54,7 @@ const SearchPage = ({liked_items}) => {
     (store) => store.filterSlice.ShowOtherFilters
   );
 
-  const enabled =  useSelector((store) => store.filterSlice.enabled);
+  const enabled = useSelector((store) => store.filterSlice.enabled);
   const selectedCities = useSelector(
     (store) => store.headerListSlice.selectedCities
   );
@@ -131,12 +131,15 @@ const SearchPage = ({liked_items}) => {
       selectedCities,
       sortTitle,
     };
-console.log("current filters" , currentFilters)
+    console.log("current filters", currentFilters);
     if (
       !showSearchProvinceList &&
       !showCalendar &&
       !showGuestNum &&
       !showBedroom &&
+      ////////////
+      // bedroomFilter.room != 0 &&
+      // bedroomFilter.bed != 0 &&
       !showCost &&
       !showProperty &&
       !showType &&
@@ -184,7 +187,7 @@ console.log("current filters" , currentFilters)
 
   return (
     <div className="w-full bg-gray-50">
-      <SearchPageFilter  />
+      <SearchPageFilter />
       <div className="w-full  flex justify-start items-start rounded-2xl overflow-hidden relative">
         <div
           className={`  z-0 fixed mapheight  w-full md:w-5/12 ${
@@ -193,20 +196,18 @@ console.log("current filters" , currentFilters)
               : " top-full md:top-[121px] md:-left-[700px] "
           }  transition-all duration-500 ease-in-out `}
         >
-          <DynamicSearchMap
-            data={searchedData}
-          />
+          <DynamicSearchMap data={searchedData} />
           <div
             className={`${
-              !enabled ? "hidden" : "flex"
-            } absolute md:hidden w-full h-16 bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
+              !enabled ? "hidden" : "flex "
+            } fixed md:hidden w-full h-16 bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
           ></div>
           <button
             onClick={() => dispatch(setEnabled(false))}
             type="button"
             className={`${
               !enabled ? "hidden" : "flex"
-            } z-[451] absolute md:hidden bottom-[40px] left-1/2 -translate-x-1/2 px-6 py-2 rounded-full 
+            } z-[451] fixed md:hidden bottom-[40px] left-1/2 -translate-x-1/2 px-6 py-2 rounded-full 
             flex justify-center items-center gap-2 text-white border-4 border-white
              bg-zinc-700 hover:border-t-2 hover:bg-zinc-600 transition-all duration-300 `}
           >
@@ -223,12 +224,14 @@ console.log("current filters" , currentFilters)
           } 
          ${
            showBox ? "z-[600] " : " z-[1001]  "
-         } md:z-[100] md:pt-[57px] transition-all duration-500 ease-in-out overflow-y-scroll md:overflow-y-hidden `}
+         } md:z-[100] md:pt-[57px] transition-all duration-500 ease-in-out overflow-y-scroll 
+          md:overflow-y-hidden `}
         >
           <div
             className={`fixed ${
               enabled ? "hidden" : "flex"
-            } md:hidden w-full pt-5 h-12  justify-center items-center bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
+            } md:hidden w-full pt-5 h-12  justify-center items-center bg-white z-[450] bottom-0
+              rounded-tr-2xl rounded-tl-2xl `}
           >
             <span
               onClick={() => dispatch(setEnabled(true))}

@@ -14,7 +14,11 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 
-const BedRoomBox = ({  otherfilter, deleteAllOtherFilters ,setDeleteAllOtherFilters }) => {
+const BedRoomBox = ({
+  otherfilter,
+  deleteAllOtherFilters,
+  setDeleteAllOtherFilters,
+}) => {
   const dispatch = useDispatch();
 
   const room_num = useSelector((store) => store.filterSlice.bedroomFilter.room);
@@ -24,7 +28,7 @@ const BedRoomBox = ({  otherfilter, deleteAllOtherFilters ,setDeleteAllOtherFilt
       dispatch(setBed(0));
       dispatch(setRoom(0));
       dispatch(bedroomActive(false));
-      setDeleteAllOtherFilters(false)
+      setDeleteAllOtherFilters(false);
     }
   }, [otherfilter, deleteAllOtherFilters]);
   return (
@@ -54,7 +58,7 @@ const BedRoomBox = ({  otherfilter, deleteAllOtherFilters ,setDeleteAllOtherFilt
               onClick={() => {
                 room_num > 0 && dispatch(setRoom(room_num - 1));
                 dispatch(bedroomActive(true));
-                 if (otherfilter) dispatch(setActiveNumbers("sm"));
+                if (otherfilter) dispatch(setActiveNumbers("sm"));
               }}
               disabled={room_num < 1}
               className={` disabled:border-gray-50 disabled:text-gray-200   disabled:cursor-not-allowed
@@ -128,7 +132,11 @@ const BedRoomBox = ({  otherfilter, deleteAllOtherFilters ,setDeleteAllOtherFilt
             <button
               className="flex items-center gap-1 px-3 py-2 cursor-pointer bg-yellow-500 hover:bg-yellow-600 border-2 rounded-md"
               onClick={() => {
-                dispatch(bedroomActive(true)), dispatch(setShowBedroom(false));
+                room_num != 0 || bed_num != 0
+                  ? dispatch(bedroomActive(true))
+                  : dispatch(bedroomActive(false));
+
+                dispatch(setShowBedroom(false));
               }}
             >
               <CiSearch className="w-5 h-5" />

@@ -97,7 +97,10 @@ const Numbersection = () => {
           minLength={10}
           value={mobileNumber}
           onChange={(e) => {
-            dispatch(setMobileNumber(e.target.value));
+            if (/^\d*$/.test(e.target.value)) {
+              dispatch(setMobileNumber(e.target.value));
+            }
+            
             if (numNotValid) {
               const validnum = check_phone(e.target.value);
               setNumNotValid(!validnum);
