@@ -199,14 +199,14 @@ console.log("current filters" , currentFilters)
           <div
             className={`${
               !enabled ? "hidden" : "flex"
-            } absolute md:hidden w-full h-16 bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
+            } fixed md:hidden w-full h-16 bg-white z-[450] bottom-0 rounded-tr-2xl rounded-tl-2xl `}
           ></div>
           <button
             onClick={() => dispatch(setEnabled(false))}
             type="button"
             className={`${
               !enabled ? "hidden" : "flex"
-            } z-[451] absolute md:hidden bottom-[40px] left-1/2 -translate-x-1/2 px-6 py-2 rounded-full 
+            } z-[451] fixed md:hidden bottom-[40px] left-1/2 -translate-x-1/2 px-6 py-2 rounded-full 
             flex justify-center items-center gap-2 text-white border-4 border-white
              bg-zinc-700 hover:border-t-2 hover:bg-zinc-600 transition-all duration-300 `}
           >
