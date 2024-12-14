@@ -7,7 +7,8 @@ import User from "../../../../models/User";
 import { stat, mkdir, writeFile } from "fs/promises";
 import { extname, join } from "path";
 import { sanitizeFilename } from "../../../../utils/replaceName";
-import { authOptions }  from "../auth/[...nextauth]/route";
+
+import { authOptions } from "../auth/[...nextauth]/route";
 
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
@@ -24,8 +25,10 @@ export async function POST(req) {
       { status: 401 }
     );
   }
+
   console.log("session", session);
   const user = await User.findOne({ phone: session.user.phone });
+
   if (!user) {
     return NextResponse.json(
       { error: "حساب کاربری یافت نشد" },
@@ -121,7 +124,7 @@ export async function POST(req) {
         console.log(error);
       } else {
         console.log(data);
-        const finalFilePath = `${process.env.GOAL_HOST_URL}/jajiga-rooms/${filename}`
+        const finalFilePath = `${process.env.GOAL_HOST_URL}/jajiga-rooms/${filename}`;
         finalFilePaths.push(finalFilePath);
       }
     });

@@ -1,5 +1,5 @@
 import EditElement from "./editElement";
-import PasswordElement from "./PasswordElement";
+import PasswordElement from "./passwordElement";
 
 const ProfileDetails = ({ user }) => {
   return (
