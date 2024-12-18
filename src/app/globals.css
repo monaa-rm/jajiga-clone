@@ -495,7 +495,7 @@ input[type="number"] {
     rgba(37, 42, 49, 0.24) 0px 8px 24px 0px;
 }
 .bottomboxStyle {
-  top: calc(100vh - 80px + env(safe-area-inset-bottom));
+  bottom: env(safe-area-inset-bottom);
 }
 .provinceListHeight {
   height: calc(-100px + 100vh);
