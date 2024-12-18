@@ -151,6 +151,7 @@ const NewRoomPage = () => {
         <div className="">
           <div
             className="z-[710] md:z-[1000] fixed bottomboxStyle left-1/2 -translate-x-1/2 text-sm
+
           flex justify-center items-center pb-8"
           >
             <div className="rounded-lg bg-black bg-opacity-60  p-3 w-[300px] sm:w-[400px] flex justify-between items-center ">
