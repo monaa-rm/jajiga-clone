@@ -71,7 +71,7 @@ const NewRoomPage = () => {
   const handleButtonClick = (action) => {
     if (!isButtonClicked) {
       setIsButtonClicked(true);
-      
+
       action();
       setTimeout(() => setIsButtonClicked(false), 500); // Adjust the timeout as needed
     }
@@ -150,34 +150,38 @@ const NewRoomPage = () => {
       {showSearchProvinceList ? null : (
         <div className="">
           <div
-            className="z-[710] md:z-[1000] fixed bottomboxStyle left-1/2 -translate-x-1/2 p-3 text-sm
-       rounded-lg bg-black bg-opacity-60 w-[300px] sm:w-[400px] flex justify-between items-center"
+            className="z-[710] md:z-[1000] fixed bottomboxStyle left-1/2 -translate-x-1/2 text-sm
+          flex justify-center items-center pb-8"
           >
-            <button
-              onClick={() =>{ handleButtonClick(prevSidebarItem)}}
-              type="button"
-              disabled={activeItem == 0}
-              className={`w-24 h-8 rounded-lg flex justify-center items-center bg-zinc-100
+            <div className="rounded-lg bg-black bg-opacity-60  p-3 w-[300px] sm:w-[400px] flex justify-between items-center ">
+              <button
+                onClick={() => {
+                  handleButtonClick(prevSidebarItem);
+                }}
+                type="button"
+                disabled={activeItem == 0}
+                className={`w-24 h-8 rounded-lg flex justify-center items-center bg-zinc-100
            hover:bg-zinc-200 transition-all duration-300 disabled:text-[rgb(51,51,51)] disabled:bg-opacity-50 ${
              activeItem == 0 ? "cursor-not-allowed" : "cursor-pointer"
            }`}
-            >
-              قبلی
-            </button>
-            {activeItem != 10 ? (
-              <button
-                onClick={() => handleButtonClick(nextSidebarItem)}
-                type="button"
-                disabled={nextDisabled}
-                className={`w-24 h-8 rounded-lg flex justify-center items-center
+              >
+                قبلی
+              </button>
+              {activeItem != 10 ? (
+                <button
+                  onClick={() => handleButtonClick(nextSidebarItem)}
+                  type="button"
+                  disabled={nextDisabled}
+                  className={`w-24 h-8 rounded-lg flex justify-center items-center
              bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 disabled:cursor-not-allowed 
              disabled:bg-opacity-50 disabled:text-[rgb(51,51,51)] cursor-pointer`}
-              >
-                بعدی
-              </button>
-            ) : (
-              <Endbutton />
-            )}
+                >
+                  بعدی
+                </button>
+              ) : (
+                <Endbutton />
+              )}
+            </div>
           </div>
         </div>
       )}
