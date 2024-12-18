@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const PasswordElement = ({ userId }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,23 +20,29 @@ const PasswordElement = ({ userId }) => {
       setRepeatPasswordValid(false);
     }
     if (password && repeatPassword && password === repeatPassword) {
-      const res = await fetch(`/api/auth/user?itemtype=password`, {
-        method: "PATCH",
-        body: JSON.stringify({ password, repeatPassword, userId }),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (res.status == 200) {
-        setShowPassword(false);
-        setPassword("");
-        setRepeatPassword("");
-      }
-      const data = await res.json();
-      if (data.error) {
-        setPasswordValid(false);
-        setRepeatPasswordValid(false);
-        setPassword("");
-        setRepeatPassword("");
-      }
+try {
+  const res = await fetch(`/api/auth/user?itemtype=password`, {
+    method: "PATCH",
+    body: JSON.stringify({ password, repeatPassword, userId }),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (res.status == 200) {
+    setShowPassword(false);
+    setPassword("");
+    setRepeatPassword("");
+    toast.success(`رمز عبور بروزرسانی شد`);
+  }
+  const data = await res.json();
+  if (data.error) {
+    setPasswordValid(false);
+    setRepeatPasswordValid(false);
+    setPassword("");
+    setRepeatPassword("");
+    toast.warning("مشکلی پیش آمده است");
+  }
+} catch (error) {
+  toast.warning("مشکلی پیش آمده است");
+}
     }
   };
   return (

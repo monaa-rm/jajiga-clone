@@ -40,6 +40,7 @@
     "react-redux": "^9.1.2",
     "react-scroll": "^1.9.0",
     "react-slick": "^0.30.2",
+    "react-toastify": "^11.0.1",
     "react-tooltip": "^5.26.4",
     "sanitize-filename": "^1.6.3",
     "shamsi-holiday": "^1.7.0",

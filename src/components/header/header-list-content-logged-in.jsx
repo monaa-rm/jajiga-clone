@@ -36,6 +36,7 @@ const HeaderListContentLoggedIn = () => {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const { data, status } = useSession();
+  console.log("session",data)
   return (
     <div
       dir="ltr"
@@ -47,7 +48,7 @@ const HeaderListContentLoggedIn = () => {
         className="flex justify-start items-center gap-2 px-10 pb-2 pt-4 border-b border-gray-100 "
       >
         <div className=" w-[72px] h-[72px] relative rounded-full">
-          {data && data.user.image ? (
+          {data && data?.user?.image ? (
             <Image
               src={data.user.image}
               alt={data.user.name}

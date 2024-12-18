@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { check_phone } from "../../../utils/constants";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 const PasswordSection = () => {
   const [placeHolder, setPlaceHolder] = useState(false);
@@ -51,23 +52,27 @@ const PasswordSection = () => {
   }, [showSignIn, showMobileNumber]);
 
   const loginHandler = async () => {
-    const res = await signIn("credentials", {
-      phone: mobileNumber,
-      password: password,
-      name : userfullname,
-      redirect: false,
-    });
+    try {
+      const res = await signIn("credentials", {
+        phone: mobileNumber,
+        password: password,
+        name: userfullname,
+        redirect: false,
+      });
 
-    if (res.error) {
-      setNumNotValid(res.error);
-    } else {
-      dispatch(setShowSignIn(false));
-      dispatch(setShowMobileNumber(true));
-      dispatch(setMobileNumber(""));
-      dispatch(setPassword(""));
-      dispatch(setmobileNumberRegistered(0));
+      if (res.error) {
+        setNumNotValid(res.error);
+      } else {
+        toast.success("با موفقیت وارد شدید")
+        dispatch(setShowSignIn(false));
+        dispatch(setShowMobileNumber(true));
+        dispatch(setMobileNumber(""));
+        dispatch(setPassword(""));
+        dispatch(setmobileNumberRegistered(0));
+      }
+    } catch (error) {
+      toast.warning("مشکلی پیش آمده")
     }
-    
   };
   return (
     <div
@@ -88,7 +93,7 @@ const PasswordSection = () => {
             dispatch(setShowMobileNumber(true));
             dispatch(setmobileNumberRegistered(0));
             dispatch(setPassword(""));
-            setNumNotValid(false)
+            setNumNotValid(false);
           }}
           className="px-2 py-1 rounded-lg text-gray-700 bg-gray-200
          hover:bg-gray-300 active:bg-gray-400"
@@ -130,9 +135,11 @@ const PasswordSection = () => {
         >
           رمز عبور
         </span>
-      {numNotValid ? (
-        <div className="text-center w-full absolute top-full pt-1 sm:text-start text-red-500 text-xs">{numNotValid}</div>
-      ) : null}
+        {numNotValid ? (
+          <div className="text-center w-full absolute top-full pt-1 sm:text-start text-red-500 text-xs">
+            {numNotValid}
+          </div>
+        ) : null}
       </div>
       <div className="flex justify-center w-full">
         <button

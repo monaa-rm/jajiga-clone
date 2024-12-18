@@ -235,32 +235,6 @@ const ResidanceInformation = ({
         </div>
       </div>
       <div className=" w-full md:w-2/3 flex flex-col justify-start items-start gap-2 relative px-2">
-        <div
-          className={` sticky ${
-            showBox ? "top-full" : "bottomResidanceBoxstyle"
-          } transition-all duration-300   w-full  rounded-2xl z-[700] h-20 bg-[rgba(0,0,0,0.6)]  
-          backdrop-blur-sm ${isModalOpen ? "hidden" : "block md:hidden"} `}
-        >
-          <div className="w-full flex h-full justify-between items-center p-3 ">
-            <div className="text-sm text-white">
-              {" "}
-              هرشب از{" "}
-              <span className="text-lg ">
-                {data.price.holidays > data.price.notHolidays
-                  ? formatNumberToPersian(data.price.notHolidays)
-                  : formatNumberToPersian(data.price.holidays)}
-              </span>{" "}
-              تومان
-            </div>
-            <button
-              onClick={() => setShowMdBox(true)}
-              className="text-gray-700 bg-[rgb(240,200,7)] hover:bg-[rgb(223,187,6)] 
-            px-4 py-3 rounded-full transition-all duration-300"
-            >
-              درخواست رزرو
-            </button>
-          </div>
-        </div>
         <Element
           name="details"
           className="w-full flex flex-col justify-start items-start gap-2 relative"
@@ -465,8 +439,7 @@ const ResidanceInformation = ({
         <Element
           name="comments"
           className={`py-2 border-t  border-gray-300 w-full h-96  overflow-hidden `}
-        >
-        </Element>
+        ></Element>
         <div
           className={`modalmap p-0 border-t  border-gray-300 w-full  overflow-hidden ${
             isModalOpen
@@ -484,6 +457,38 @@ const ResidanceInformation = ({
             setIsModalOpen={setIsModalOpen}
             position={data.location}
           />
+        </div>
+        <div
+          className={` sticky ${
+            showBox ? "top-full" : "bottomboxStyle"
+          } transition-all duration-300   w-full  z-[700] pb-4  ${
+            isModalOpen ? "hidden" : "block md:hidden"
+          } `}
+        >
+          <div
+            className="h-20 w-full  rounded-2xl bg-[rgba(0,0,0,0.6)]  
+          backdrop-blur-sm"
+          >
+            <div className="w-full flex h-full justify-between items-center p-3 ">
+              <div className="text-sm text-white">
+                {" "}
+                هرشب از{" "}
+                <span className="text-lg ">
+                  {data.price.holidays > data.price.notHolidays
+                    ? formatNumberToPersian(data.price.notHolidays)
+                    : formatNumberToPersian(data.price.holidays)}
+                </span>{" "}
+                تومان
+              </div>
+              <button
+                onClick={() => setShowMdBox(true)}
+                className="text-gray-700 bg-[rgb(240,200,7)] hover:bg-[rgb(223,187,6)] 
+            px-4 py-3 rounded-full transition-all duration-300"
+              >
+                درخواست رزرو
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

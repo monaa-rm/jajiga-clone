@@ -46,8 +46,8 @@ const SingleRoomImages = ({ images , userData ,residanceId }) => {
       <Likeresidance userData={userData} residanceId={residanceId}/>
       <div
         className={`hidden ${
-          showAll ? "sm:block" : "sm:hidden"
-        } fixed left-5 top-3 cursor-pointer z-[601] `}
+          showAll ? "sm:block  z-[1000]" : "sm:hidden  z-[601]"
+        } fixed left-5 top-7 cursor-pointer `}
       >
 
         <LiaTimesSolid
@@ -62,8 +62,8 @@ const SingleRoomImages = ({ images , userData ,residanceId }) => {
             : "hidden"
         } singleroom`}
       >
-        <div className=" w-auto h-auto md:w-5/6 ">
-          <Slider {...settings} id="resImageSliderId">
+        <div className=" w-auto h-auto md:w-5/6 " id="resImageSliderId" >
+          <Slider {...settings}>
             {images.map((image, i) => (
               <div
                 key={i}

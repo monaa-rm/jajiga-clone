@@ -9,13 +9,14 @@ import { RiDeleteBack2Fill } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import { getCroppedImg } from "./getCroppedImg";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [filename, setFilename] = useState("croppedImage.jpg");
   const [croppedImage, setCroppedImage] = useState(null);
   const [rotation, setRotation] = useState(0);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const { data: session, status, update } = useSession()
+  const { data: session, status, update } = useSession();
   useEffect(() => {
     const handleClick = (event) => {
       if (!event.target.closest("#selectImage")) {
@@ -67,19 +68,21 @@ const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
         method: "PATCH",
         body: formData,
       });
-
       if (res.status === 200) {
         const data = await res.json();
-        await update({image : data.data})
+        await update({ image: data?.data });
         setSelectedImage(null);
         setCroppedAreaPixels(null);
         setCroppedImage(null);
         setRotation(0);
+        toast.success("عکس جدید آپلود شد");
       } else {
         console.error("Failed to upload image", res);
+        toast.warning("مشکلی پیش آمده است");
       }
     } catch (error) {
       console.error("Error occurred:", error);
+      toast.warning("مشکلی پیش آمده است");
     }
   };
 

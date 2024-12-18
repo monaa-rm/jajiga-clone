@@ -25,13 +25,15 @@ export const authOptions = {
         if (!user) throw new Error("لطفا ثبت نام کنید");
         const isValid = await verifyPassword(password, user.password);
         if (!isValid) throw new Error("اطلاعات معتبر نیست");
-        return { name, phone };
+        return { name , phone: user.phone, image: user.image };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, trigger, session, user }) {
+      console.log("qqqqqqq", {token, trigger, session, user })
       if (trigger === "update") {
+        console.log("update")
         // Note, that `session` can be any arbitrary object, remember to validate it!
         if (session?.name) token.name = session.name;
         if (session?.phone) token.phone = session.phone;

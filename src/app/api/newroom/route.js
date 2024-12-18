@@ -119,7 +119,7 @@ export async function POST(req) {
     }
 
     // callback
-    client.send(new PutObjectCommand(params), (error, data) => {
+     client.send(new PutObjectCommand(params), (error, data) => {
       if (error) {
         console.log(error);
       } else {

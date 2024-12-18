@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
   const byteCharacters = atob(base64.split(",")[1]);
@@ -96,10 +97,14 @@ const Endbutton = () => {
       });
       if (res.status == 201) {
         dispatch(resetState());
+        toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
+      }else{
+        toast.warning("مشکلی پیش آمده است");
       }
     } catch (error) {
       console.log(error);
+      toast.warning("مشکلی پیش آمده است");
     }
     setLoading(false);
   };

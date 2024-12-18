@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MdDoneOutline, MdOutlineEdit } from "react-icons/md";
 import { check_phone } from "../../../../utils/constants";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 const EditElement = ({ title, itemtype, content, userId }) => {
   const [item, setItem] = useState(
@@ -31,20 +32,28 @@ const EditElement = ({ title, itemtype, content, userId }) => {
         return setItemValid(numvalid);
       }
     }
-    const res = await fetch(`/api/auth/user?itemtype=${itemtype}`, {
-      method: "PATCH",
-      body: JSON.stringify({ [itemtype]: item, userId }),
-      headers: { "Content-Type": "application/json" },
-    });
+try {
+  const res = await fetch(`/api/auth/user?itemtype=${itemtype}`, {
+    method: "PATCH",
+    body: JSON.stringify({ [itemtype]: item, userId }),
+    headers: { "Content-Type": "application/json" },
+  });
 
-    if (res.status == 200 && status === "authenticated") {
-      const data = await res.json();
-      setEdit(false);
-      await update({
-        name: `${data.data.name} ${data.data.lastName}`,
-        phone: data.data.phone,
-      });
-    }
+  if (res.status == 200 && status === "authenticated") {
+    const data = await res.json();
+    toast.success(`${title} بروزرسانی شد`);
+    setEdit(false);
+    await update({
+      name: `${data.data.name} ${data.data.lastName}`,
+      phone: data.data.phone,
+    });
+  }else{
+    toast.warning("مشکلی پیش آمده است");
+  }
+} catch (error) {
+  console.log(error)
+  toast.warning("مشکلی پیش آمده است");
+}
   };
 
   return (

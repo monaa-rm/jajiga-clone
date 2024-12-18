@@ -4,18 +4,19 @@ import { FaPlus } from "react-icons/fa6";
 import { PiUserCircleThin } from "react-icons/pi";
 import SelectProfileImage from "./select-profile-image";
 import { MdOutlineEdit } from "react-icons/md";
+import { useSession } from "next-auth/react";
 
 const ProfileImage = ({ user }) => {
   const [showImageBox, setShowImageBox] = useState(false);
- 
+  const { data, status } = useSession();
   return (
     <div>
       <div className=" w-full relative">
-        {user?.image ? (
+        {data.user.image ?? user?.image ? (
           <div className="absolute h-24 w-24 -top-10  left-1/2 -translate-x-1/2 rounded-full bg-white border border-gray-200">
             <div className="w-full h-full relative rounded-full">
               <Image
-                src={user?.image}
+                src={data.user.image ?? user?.image }
                 alt={user?.name}
                 fill
                 className="object-cover rounded-full"
@@ -49,7 +50,10 @@ const ProfileImage = ({ user }) => {
           showImageBox ? "top-0" : "top-full"
         } right-0 left-0 bottom-0 bg-black bg-opacity-60`}
       ></div>
-      <SelectProfileImage showImageBox={showImageBox} setShowImageBox={setShowImageBox} />
+      <SelectProfileImage
+        showImageBox={showImageBox}
+        setShowImageBox={setShowImageBox}
+      />
     </div>
   );
 };

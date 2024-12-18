@@ -15,7 +15,7 @@ import { getDatesBetweenShamsi } from "../../../../utils/calendar-funcs";
 import { setCalendarValues } from "@/store/slices/calendarSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
+import { ToastContainer, toast } from 'react-toastify';
 const ResidanceAside = ({
   littleBox,
   price,
@@ -82,10 +82,31 @@ const ResidanceAside = ({
         setSingleValue(null);
         setTotalCost(0);
         if (res.status == 200) {
+          toast.success('درخواست ارسال شد', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+   
+            });
           router.push("/");
           setLoading(false);
         } else {
           setLoading(false);
+          toast.warning('مشکلی پیش آمده است', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         }
       } else {
         dispatch(setShowSignIn(true));

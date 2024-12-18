@@ -13,6 +13,7 @@ import { check_phone } from "../../../utils/constants";
 import InputBox from "./inputBox";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 const LoggedInformationSection = () => {
   const [numNotValid, setNumNotValid] = useState(false);
@@ -59,33 +60,38 @@ const LoggedInformationSection = () => {
     if (!name || !lastName || !userPassword) {
       setNumNotValid(true);
     } else {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify({
-          phone: mobileNumber,
-          name,
-          lastName,
-          password: userPassword,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (res.status == 201) {
-        const resToken = await signIn("credentials", {
-          phone: mobileNumber,
-          password: userPassword,
-          name: `${name} ${lastName}`,
-          redirect: false,
-        });
-        dispatch(setShowSignIn(false));
-        dispatch(setShowMobileNumber(true));
-        dispatch(setMobileNumber(""));
-        setName("");
-        setLastName("");
-        setUserPassword("");
-        dispatch(setPassword(""));
-        dispatch(setmobileNumberRegistered(0));
-        dispatch(setUserfullname(`${name} ${lastName}`))
-      }
+try {
+  const res = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({
+      phone: mobileNumber,
+      name,
+      lastName,
+      password: userPassword,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (res.status == 201) {
+    const resToken = await signIn("credentials", {
+      phone: mobileNumber,
+      password: userPassword,
+      name: `${name} ${lastName}`,
+      redirect: false,
+    });
+    toast.success("با موفقیت ثبت نام شدید")
+    dispatch(setShowSignIn(false));
+    dispatch(setShowMobileNumber(true));
+    dispatch(setMobileNumber(""));
+    setName("");
+    setLastName("");
+    setUserPassword("");
+    dispatch(setPassword(""));
+    dispatch(setmobileNumberRegistered(0));
+    dispatch(setUserfullname(`${name} ${lastName}`))
+  }
+} catch (error) {
+  toast.warning("مشکلی پیش آمده است");
+}
     }
   };
   return (

@@ -51,14 +51,14 @@ const ResidanceNav = ({showNav, setShowNav}) => {
   return (
     <div
       id="navResidance"
-      className={`z-[650] w-2/3 pr-3 pl-8 hidden lg:block xl:pl-16 xl:pr-24 fixed transition-all duration-700 ${
+      className={`z-[650] w-full md:w-2/3 md:pr-3 md:pl-8 lg:block xl:pl-16 xl:pr-24 fixed transition-all duration-700 ${
         showNav ? "top-0 " : " -top-12"
-      } right-5 
+      } right-0 md:right-5 
     `}
     >
-      <div className=" w-full  text-xs  text-white py-3 px-5 flex justify-between items-center
-       gap-5 bg-zinc-700   bg-opacity-90 rounded-br-2xl rounded-bl-2xl transition-all duration-500 ">
-        <div className="flex justify-start items-center gap-5">
+      <div className=" w-full  text-xs  text-white px-1 py-2 md:py-3 md:px-5 flex justify-between items-center
+      gap-1 md:gap-5 bg-zinc-700 discount_cities_scrol  bg-opacity-90 rounded-br-2xl rounded-bl-2xl transition-all duration-500 overflow-x-scroll sm:overflow-x-auto">
+        <div className="flex justify-start items-center gap-2 md:gap-5">
           {points.map((item, i) => (
             <Link
               key={i}
@@ -77,7 +77,7 @@ const ResidanceNav = ({showNav, setShowNav}) => {
             </Link>
           ))}
         </div>
-        <div className="flex justify-end items-center gap-2">
+        <div className=" justify-end items-center gap-2 hidden lg:flex">
           <div className="w-6 h-6 rounded-md bg-white hover:bg-gray-200 flex items-center justify-center ">
             <PiHeart className="w-5 h-5 text-gray-800" />
           </div>

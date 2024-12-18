@@ -9,6 +9,7 @@ import ReduxToolkitProvider from "@/providers/reduxtoolkitProviders";
 import "react-tooltip/dist/react-tooltip.css";
 import SignInSection from "@/components/sign-in";
 import { NextAuthProvider } from "@/components/layout/nextuthProvider";
+import { ToastContainer } from "react-toastify";
 
 export default function RootLayout({ children }) {
   return (
@@ -22,6 +23,8 @@ export default function RootLayout({ children }) {
             <div>
               {children}
               <Footer />
+
+              <ToastContainer />
             </div>
           </NextAuthProvider>
         </ReduxToolkitProvider>
