@@ -8,13 +8,22 @@ import connectDB from "../../../utils/connectDb";
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/user`,
-    { method: "POST", body: JSON.stringify(session.user), cache: "no-store" }
-  );
-  const data = await res.json();
-  if (data.error) redirect("/");
-  return <ProfilePage user={JSON.parse(JSON.stringify(data?.data))} />;
+  console.log("1")
+  let user;
+  try {
+    await connectDB();
+     user = await User.findOne({ phone: session?.user?.phone });
+    if (!user) {
+      console.log("2")
+      redirect("/");
+    }
+    console.log("3")
+  } catch (error) {
+    console.log("4")
+    redirect("/");
+  }
+
+  return <ProfilePage user={JSON.parse(JSON.stringify(user))} />;
 };
 
 export default Profile;
