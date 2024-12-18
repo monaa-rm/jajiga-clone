@@ -69,7 +69,7 @@ const NewroomArea = () => {
     };
   }, [showRegion]);
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 pb-10">
       <div className="flex flex-col md:flex-row justify-center md:justify-start items-start md:items-center gap-3 text-gray-600 text-sm pt-4">
         <span className=" w-44  ">فضای اقامتگاه </span>
 

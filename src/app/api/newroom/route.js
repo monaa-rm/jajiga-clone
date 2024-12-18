@@ -108,7 +108,7 @@ export async function POST(req) {
     const params = {
       Body: buffer,
       Bucket: process.env.LIARA_BUCKET_NAME,
-      Key: "jajiga-rooms" + filename,
+      Key: "jajiga-rooms/" + filename,
     };
 
     // async/await

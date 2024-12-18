@@ -129,16 +129,20 @@ const NewroomImages = () => {
   const dispatch = useDispatch();
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
+    console.log(files);
     const newItems = await Promise.all(
-      files.map(async (file, index) => {
-        const base64 = await convertToBase64(file);
-        return {
-          id: images.length + index,
-          file: base64,
-          name: file.name,
-          type: file.type,
-        };
-      })
+      files
+        .filter(async (file) => file?.type.startsWith("image/"))
+        .map(async (file, index) => {
+          const base64 = await convertToBase64(file);
+
+          return {
+            id: images.length + index,
+            file: base64,
+            name: file?.name,
+            type: file?.type,
+          };
+        })
     );
     dispatch(setImages([...images, ...newItems]));
   };

@@ -458,30 +458,25 @@ input[type="number"] {
 .profileboxheight {
   height: calc(-112 + 100vh);
 }
-.otherfiltersbottom{
-    height: calc(-187px + 100vh);
+.otherfiltersbottom {
+  height: calc(-187px + 100vh);
 }
-.otherfiltersHeight{
-    height: calc(-140px + 100vh);
-  
-}
-
-.calendarbottom{
-    height: calc(-150px + 100vh);
-  
+.otherfiltersHeight {
+  height: calc(-140px + 100vh);
 }
 
-.guestBottom{
-    height: calc(-384px + 100vh);
-  
+.calendarbottom {
+  height: calc(-150px + 100vh);
 }
-.costBottom{
-    height: calc(-320 + 100vh);
-  
+
+.guestBottom {
+  height: calc(-384px + 100vh);
 }
-.otherfiltersbottommd{
-    height: calc(-130px + 100vh);
-  
+.costBottom {
+  height: calc(-320 + 100vh);
+}
+.otherfiltersbottommd {
+  height: calc(-130px + 100vh);
 }
 .leaflet-popup-content {
   margin: 0px !important;
@@ -495,8 +490,9 @@ input[type="number"] {
     rgba(37, 42, 49, 0.24) 0px 8px 24px 0px;
 }
 .bottomboxStyle {
-  top: calc(-80px + 100vh);
+  bottom: env(safe-area-inset-bottom);
 }
+/* top: calc(-80px + 100vh); */
 .provinceListHeight {
   height: calc(-100px + 100vh);
 }
@@ -532,9 +528,5 @@ input[type="number"] {
   display: block;
   margin-top: 5px;
 }
-
-
-
-
 
 @import url("./custom.css");
