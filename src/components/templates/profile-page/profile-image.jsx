@@ -12,11 +12,11 @@ const ProfileImage = ({ user }) => {
   return (
     <div>
       <div className=" w-full relative">
-        {data.user.image ?? user?.image ? (
+        {data?.user?.image ?? user?.image ? (
           <div className="absolute h-24 w-24 -top-10  left-1/2 -translate-x-1/2 rounded-full bg-white border border-gray-200">
             <div className="w-full h-full relative rounded-full">
               <Image
-                src={data.user.image ?? user?.image }
+                src={data?.user?.image ?? user?.image }
                 alt={user?.name}
                 fill
                 className="object-cover rounded-full"
