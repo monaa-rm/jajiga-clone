@@ -8,20 +8,15 @@ import connectDB from "../../../utils/connectDb";
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
-  console.log("1")
-  let user;
-  try {
-    await connectDB();
-     user = await User.findOne({ phone: session?.user?.phone });
-    if (!user) {
-      console.log("2")
-      redirect("/");
-    }
-    console.log("3")
-  } catch (error) {
-    console.log("4")
+  console.log("1");
+
+  await connectDB();
+  const user = await User.findOne({ phone: session?.user?.phone });
+  if (!user) {
+    console.log("2");
     redirect("/");
   }
+  console.log("3");
 
   return <ProfilePage user={JSON.parse(JSON.stringify(user))} />;
 };
