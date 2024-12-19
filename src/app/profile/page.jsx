@@ -11,14 +11,14 @@ const Profile = async () => {
   console.log("1");
 
   await connectDB();
-  const user = await User.findOne({ phone: session?.user?.phone });
-  if (!user) {
+  const data = await User.findOne({ phone: session?.user?.phone });
+  if (!datta) {
     console.log("2");
     redirect("/");
   }
   console.log("3");
 
-  return <ProfilePage user={JSON.parse(JSON.stringify(user))} />;
+  return <ProfilePage user={JSON.parse(JSON.stringify(data))} />;
 };
 
 export default Profile;
