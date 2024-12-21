@@ -10,6 +10,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { getCroppedImg } from "./getCroppedImg";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { convertHEIC } from "../../../../utils/convertHeic";
 const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [filename, setFilename] = useState("croppedImage.jpg");
@@ -32,15 +33,33 @@ const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
       document.body.removeEventListener("click", handleClick);
     };
   });
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = async (event) => {
+    let file = event.target.files[0];
     if (file) {
+      // console.log("file 000" , file)
       setFilename(file.name);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      if (file.name.endsWith("HEIC") || file.type.endsWith("HEIF")) {
+        try {
+          // تبدیل HEIC به JPEG
+          const convertedBlob = await convertHEIC(file);
+          const reader = new FileReader();
+
+          reader.onload = () => {
+            setSelectedImage(reader.result); // تنظیم تصویر انتخاب شده
+          };
+
+          // خواندن Blob تبدیل شده به عنوان Data URL
+          reader.readAsDataURL(convertedBlob);
+        } catch (error) {
+          console.error("Error during conversion:", error.message);
+        }
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setSelectedImage(reader.result); // تنظیم تصویر انتخاب شده برای انواع دیگر
+        };
+        reader.readAsDataURL(file); // خواندن فایل به‌صورت Data URL
+      }
     }
   };
   const userImageHandler = async () => {
@@ -165,7 +184,7 @@ const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
               id="profileInput"
               className="hidden"
               type="file"
-              accept="image/*"
+              accept="image/heic, image/heif, image/jpeg, image/png, image/webp"
               onChange={handleFileChange}
             />
           </>
@@ -187,6 +206,7 @@ const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
             <div className="w-36 h-36 rounded-full relative">
               <Image
                 fill
+                sizes="144px"
                 className="object-cover rounded-full"
                 src={URL.createObjectURL(croppedImage)}
                 alt="Cropped Image"

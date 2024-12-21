@@ -36,7 +36,6 @@ const HeaderListContentLoggedIn = () => {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const { data, status } = useSession();
-  console.log("session",data)
   return (
     <div
       dir="ltr"

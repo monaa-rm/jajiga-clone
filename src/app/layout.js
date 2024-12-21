@@ -10,23 +10,26 @@ import "react-tooltip/dist/react-tooltip.css";
 import SignInSection from "@/components/sign-in";
 import { NextAuthProvider } from "@/components/layout/nextuthProvider";
 import { ToastContainer } from "react-toastify";
+import SplashScreenProvider from "@/providers/splashScreenProvider";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="ltr">
       <body className="relative ">
         <ReduxToolkitProvider>
-          <NextAuthProvider>
-            <HeaderMenuList />
-            <Header />
-            <SignInSection />
-            <div>
-              {children}
-              <Footer />
+            <NextAuthProvider>
+              <HeaderMenuList />
+              <Header />
+              <SignInSection />
+              <div>
+          <SplashScreenProvider>
+                {children}
+          </SplashScreenProvider>
+                <Footer />
 
-              <ToastContainer />
-            </div>
-          </NextAuthProvider>
+                <ToastContainer />
+              </div>
+            </NextAuthProvider>
         </ReduxToolkitProvider>
       </body>
     </html>

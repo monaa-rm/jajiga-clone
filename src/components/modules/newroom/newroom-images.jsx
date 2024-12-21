@@ -8,6 +8,7 @@ import { CiCamera } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "@/store/slices/newRoomSlice";
+import { convertHEIC } from "../../../../utils/convertHeic";
 
 const ItemType = "ITEM";
 const convertToBase64 = (file) => {
@@ -127,24 +128,62 @@ const NewroomImages = () => {
   const [imageFiles, setImageFiles] = useState([]);
 
   const dispatch = useDispatch();
+  // const handleFileChange = async (e) => {
+  //   const files = Array.from(e.target.files);
+  //   const newItems = await Promise.all(
+  //     files
+  //       .filter(async (file) => file?.type.startsWith("image/"))
+  //       .map(async (file, index) => {
+  //         const base64 = await convertToBase64(file);
+
+  //         return {
+  //           id: images.length + index,
+  //           file: base64,
+  //           name: file?.name,
+  //           type: file?.type,
+  //         };
+  //       })
+  //   );
+  //   dispatch(setImages([...images, ...newItems]));
+  // };
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
-    console.log(files);
     const newItems = await Promise.all(
       files
-        .filter(async (file) => file?.type.startsWith("image/"))
+        .filter((file) => file?.type.startsWith("image/") || file.name.endsWith("HEIC") || file.name.endsWith("HEIF")) // فیلتر بر اساس نوع فایل
         .map(async (file, index) => {
-          const base64 = await convertToBase64(file);
+          let base64;
+
+          // اگر نوع فایل HEIC باشد، ابتدا آن را به JPEG تبدیل کنید
+          if (file?.name.endsWith("HEIC") || file?.name.endsWith("HEIF")) {
+            try {
+              const convertedBlob = await convertHEIC(file); // تبدیل HEIC به JPEG
+              base64 = await convertToBase64(convertedBlob); // تبدیل Blob به base64
+            } catch (error) {
+              console.error("Error converting HEIC to JPEG:", error.message);
+              return null; // اگر خطا وجود داشت، فایل را اضافه نکنید
+            }
+          } else {
+            // برای فایل‌های غیر HEIC، مستقیما به base64 تبدیل کنید
+            base64 = await convertToBase64(file);
+          }
 
           return {
             id: images.length + index,
             file: base64,
             name: file?.name,
-            type: file?.type,
+            type:
+              file?.name.endsWith("HEIC") || file?.name.endsWith("HEIF")
+                ? "image/jpeg"
+                : file?.type,
           };
         })
     );
-    dispatch(setImages([...images, ...newItems]));
+
+    // حذف نتایج null از آرایه نهایی
+    const filteredItems = newItems.filter((item) => item !== null);
+
+    dispatch(setImages([...images, ...filteredItems]));
   };
 
   return (
@@ -163,6 +202,9 @@ const NewroomImages = () => {
           ترجیحاً از تصاویر افقی (Landscape) استفاده کنید.
         </li>
         <li className="leading-9 text-justify">
+          از آپلود تصاویر اسکرین شات اجتناب کنید.
+        </li>
+        <li className="leading-9 text-justify">
           می توانید با گرفتن و کشیدن (Drag) عکسها, تصویر اصلی اقامتگاه و ترتیب
           نمایش تصاویر را به میل خود تغییر دهید..
         </li>
@@ -178,6 +220,7 @@ const NewroomImages = () => {
             multiple
             className="hidden"
             id="fileUpload"
+            accept="image/heic, image/heif, image/jpeg, image/png, image/webp"
             onChange={handleFileChange}
           />
           <div className="flex flex-col items-center gap-2">

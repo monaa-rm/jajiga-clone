@@ -31,7 +31,6 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, trigger, session, user }) {
-      console.log("qqqqqqq", {token, trigger, session, user })
       if (trigger === "update") {
         console.log("update")
         // Note, that `session` can be any arbitrary object, remember to validate it!
