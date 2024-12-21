@@ -17,19 +17,19 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir="ltr">
       <body className="relative ">
         <ReduxToolkitProvider>
+          <SplashScreenProvider>
             <NextAuthProvider>
               <HeaderMenuList />
               <Header />
               <SignInSection />
               <div>
-          <SplashScreenProvider>
                 {children}
-          </SplashScreenProvider>
                 <Footer />
 
                 <ToastContainer />
               </div>
             </NextAuthProvider>
+          </SplashScreenProvider>
         </ReduxToolkitProvider>
       </body>
     </html>
