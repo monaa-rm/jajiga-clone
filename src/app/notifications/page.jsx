@@ -6,6 +6,21 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/dist/server/api-utils";
 import User from "../../../models/User";
 
+export async function generateMetadata({ }) {
+  const siteURL = 'http://localhost:3000';
+  return {
+     title:`اعلان ها`,
+     description:`اعلان ها`,
+     alternates: {
+        canonical: `${siteURL}/notifications`,
+     },
+     robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+     },
+  };
+}
 const Notifications = async () => {
   await connectDB();
   const session = await getServerSession(authOptions);

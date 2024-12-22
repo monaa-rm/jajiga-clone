@@ -4,6 +4,22 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import User from "../../../models/User";
 import connectDB from "../../../utils/connectDb";
 
+
+export async function generateMetadata({}) {
+  const siteURL = 'http://localhost:3000';
+  return {
+     title:`جستجو | اجاره ویلا و سوئیت`,
+     description:`جستجو | اجاره ویلا و سوئیت`,
+     alternates: {
+        canonical: `${siteURL}/s`,
+     },
+     robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+     },
+  };
+}
 const SearchSection = async () => {
   const session = await getServerSession(authOptions);
   let liked_items = [];

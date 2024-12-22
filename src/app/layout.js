@@ -12,6 +12,29 @@ import { NextAuthProvider } from "@/components/layout/nextuthProvider";
 import { ToastContainer } from "react-toastify";
 import SplashScreenProvider from "@/providers/splashScreenProvider";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
+export async function generateMetadata({ params }) {
+  const siteURL = "http://localhost:3000";
+  return {
+    title: `اجاره ویلا و آپارتمان در سراسر ایران`,
+    description: `اجاره ویلا و آپارتمان در سراسر ایران زیبا`,
+    alternates: {
+      canonical: `${siteURL}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+    },
+  };
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="ltr">
@@ -19,6 +42,15 @@ export default function RootLayout({ children }) {
         <ReduxToolkitProvider>
           <SplashScreenProvider>
             <NextAuthProvider>
+              <>
+                <meta charset="utf-8" />
+                <link
+                  rel="shortcut icon"
+                  href="/images/favicon.ico"
+                  type="image/x-icon"
+                />
+              </>
+
               <HeaderMenuList />
               <Header />
               <SignInSection />

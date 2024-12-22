@@ -5,7 +5,22 @@ import { getServerSession } from "next-auth";
 import User from "../../../../models/User";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-
+export async function generateMetadata({params}) {
+  const data = await Room.findOne({ _id: params.id });
+  const siteURL = 'http://localhost:3000';
+  return {
+     title:`اجاره ${data.type_residance.title} در ${data.address.city.name}`,
+     description:`اجاره ${data.type_residance.title} در ${data.address.city.name}`,
+     alternates: {
+        canonical: `${siteURL}/room/${params.id}`,
+     },
+     robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+     },
+  };
+}
 
 const RoomDetail = async ({ params }) => {
   await connectDB();

@@ -5,7 +5,21 @@ import Room from "../../../models/Room";
 import User from "../../../models/User";
 import { redirect } from "next/navigation";
 import ReservesPage from "@/components/templates/reservespage";
-
+export async function generateMetadata({ }) {
+  const siteURL = 'http://localhost:3000';
+  return {
+     title:`رزرو ها`,
+     description:`رزرو ها`,
+     alternates: {
+        canonical: `${siteURL}/reserves`,
+     },
+     robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+     },
+  };
+}
 const Reserves = async () => {
   await connectDB();
   let data = [];

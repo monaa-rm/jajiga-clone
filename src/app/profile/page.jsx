@@ -5,6 +5,26 @@ import { notFound } from "next/navigation";  // استفاده از notFound ب�
 import User from "../../../models/User";
 import connectDB from "../../../utils/connectDb";
 
+
+export async function generateMetadata({ params, }) {
+  const siteURL = 'http://localhost:3000';
+  const session = await getServerSession(authOptions);
+  return {
+     title:`${session?.user?.name} | حساب کاربری`,
+     description: `حساب کاربری،ویرایش حساب کاربری`,
+     alternates: {
+        canonical: `${siteURL}/profile`,
+     },
+     robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+     },
+  };
+}
+
+
+
 const Profile = async () => {
   // بررسی نشست کاربر
   const session = await getServerSession(authOptions);

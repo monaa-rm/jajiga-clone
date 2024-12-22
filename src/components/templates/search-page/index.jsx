@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setEnabled, setIsSearching } from "@/store/slices/filterSlice";
 
 const SearchPage = ({ liked_items }) => {
+  const [metaContent, setMetaContent] = useState("");
   const [searchedData, setSearchedData] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [totalRooms, setTotalRooms] = useState(0);
