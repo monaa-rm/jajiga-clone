@@ -45,6 +45,7 @@ const CropImageComponent = ({
         rotation
       );
       onCropComplete(croppedImage);
+      console.log(croppedImage);
     } catch (e) {
       console.error(e);
     }
