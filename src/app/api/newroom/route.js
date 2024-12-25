@@ -25,7 +25,7 @@ export async function POST(req) {
       { status: 401 }
     );
   }
-
+console.log("1");
   console.log("session", session);
   const user = await User.findOne({ phone: session.user.phone });
 
@@ -35,6 +35,7 @@ export async function POST(req) {
       { status: 404 }
     );
   }
+  console.log("2");
   const formData = await req.formData();
 
   const address = await formData.get("address");
@@ -56,7 +57,7 @@ export async function POST(req) {
   const price = await formData.get("price");
   const discount = await formData.get("discount");
   const rules = await formData.get("rules");
-
+console.log("3");
   const images = [];
   let index = 0;
   let finalFilePaths = [];
@@ -66,6 +67,7 @@ export async function POST(req) {
     images.push(image);
     index++;
   }
+  console.log("4");
   for (const imgFile of images) {
     const buffer = Buffer.from(await imgFile.arrayBuffer());
     // const pathDist = join(process.cwd(), "/public/images/residanceImages");
@@ -114,6 +116,7 @@ export async function POST(req) {
     // async/await
     try {
       await client.send(new PutObjectCommand(params));
+      console.log("5");
     } catch (error) {
       console.log(error);
     }
