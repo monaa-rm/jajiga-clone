@@ -132,7 +132,26 @@ export async function POST(req) {
     //   process.env.NEXT_PUBLIC_IMAGE_PATH + `${relativeUploadDir}/${filename}`;
   }
   // send to database-----------------
-  console.log("user-------------", user);
+  console.log("user-------------", {    address: JSON.parse(address),
+    location: JSON.parse(location),
+    about: JSON.parse(about),
+    exclusive: JSON.parse(exclusive),
+    disabledPeople: JSON.parse(disabledPeople),
+    area: +area,
+    region: JSON.parse(region),
+    type_residance: JSON.parse(type_residance),
+    yard: +yard,
+    capacity: +capacity,
+    maxCapacity: +maxCapacity,
+    room: +room,
+    bedroom: JSON.parse(bed),
+    options: JSON.parse(options),
+    checktime: JSON.parse(checktime),
+    price: JSON.parse(price),
+    discount: +discount,
+    rules: JSON.parse(rules),
+    images: finalFilePaths,
+    userId: user._id,});
   const newProfile = await Room.create({
     address: JSON.parse(address),
     location: JSON.parse(location),
