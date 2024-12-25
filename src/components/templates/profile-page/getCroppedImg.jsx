@@ -1,66 +1,79 @@
 // canvasUtils.js
 
-// این تابع یک تصویر را از URL می‌گیرد و آن را به عنوان یک عنصر تصویر HTML برمی‌گرداند
 const createImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
-    image.addEventListener('load', () => resolve(image));
-    image.addEventListener('error', (err) => reject(err));
+    image.onload = () => resolve(image);
+    image.onerror = (err) => reject(err);
     image.src = url;
   });
 
-// این تابع زاویه را از درجه به رادیان تبدیل می‌کند
 const getRadianAngle = (degreeValue) => (degreeValue * Math.PI) / 180;
 
 export const getCroppedImg = async (imageSrc, pixelCrop, rotation = 0) => {
-    const image = await createImage(imageSrc); // استفاده از await برای بارگذاری تصویر
+  try {
+    const image = await createImage(imageSrc);
+
+    console.log('Image loaded:', image);  // Debugging line to check if image is loaded
+
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-  // مقیاس دادن به ابعاد تصویر
-    const scaledWidth = image.width / 2;
-    const scaledHeight = image.height / 2;
-    
-  const safeArea = Math.max(image.width, image.height) * 2;
-
-
+    // تعیین ابعاد canvas بر اساس ابعاد تصویر
+    const safeArea = Math.max(image.width, image.height);
     canvas.width = safeArea;
     canvas.height = safeArea;
-  
+
+    // چرخش تصویر
     ctx.translate(safeArea / 2, safeArea / 2);
     ctx.rotate(getRadianAngle(rotation));
     ctx.translate(-safeArea / 2, -safeArea / 2);
-    
-    ctx.drawImage(
-      image,
-      safeArea / 2 - image.width / 2,
-      safeArea / 2 - image.height / 2
+
+    // رسم تصویر
+    ctx.drawImage(image, safeArea / 2 - image.width / 2, safeArea / 2 - image.height / 2);
+    console.log('Canvas dimensions:', canvas.width, canvas.height);  // Debugging line to check canvas size
+
+    // بررسی ابعاد pixelCrop
+    if (pixelCrop.width <= 0 || pixelCrop.height <= 0) {
+      throw new Error('Invalid pixelCrop dimensions');
+    }
+
+    // محدود کردن محدوده کراپ
+    const cropX = Math.max(0, pixelCrop.x);
+    const cropY = Math.max(0, pixelCrop.y);
+    const cropWidth = Math.min(pixelCrop.width, image.width - cropX);
+    const cropHeight = Math.min(pixelCrop.height, image.height - cropY);
+
+    console.log('Crop area:', cropX, cropY, cropWidth, cropHeight);  // Debugging line to check crop area
+
+    const data = ctx.getImageData(
+      safeArea / 2 - image.width / 2 + cropX,
+      safeArea / 2 - image.height / 2 + cropY,
+      cropWidth,
+      cropHeight
     );
 
-
-  const data = ctx.getImageData(
-    safeArea / 2 - image.width / 2  + pixelCrop.x,
-    safeArea / 2 - image.height / 2 + pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height
-  );
-
-
-  canvas.width = pixelCrop.width;
-  canvas.height = pixelCrop.height;
+    // تنظیم ابعاد نهایی canvas به اندازه کراپ شده
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
     ctx.putImageData(data, 0, 0);
 
+    // تبدیل canvas به فایل blob و بازگرداندن آن
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
-          if (blob) {
-            const fileName = imageSrc.name;
-            const fileType = imageSrc.type;
-            const lastModified = imageSrc.lastModified;
-            const croppedFile = new File([blob], fileName, { type: fileType, lastModified });
-            resolve(croppedFile);
-          } else {
-            reject(new Error('Canvas is empty'));
-          }
-        }, 'image/jpeg');
-      });
-  };
+        if (blob) {
+          const fileName = imageSrc.name || 'cropped-image.jpg';
+          const fileType = imageSrc.type || 'image/jpeg';
+          const lastModified = imageSrc.lastModified || Date.now();
+          const croppedFile = new File([blob], fileName, { type: fileType, lastModified });
+          resolve(croppedFile);
+        } else {
+          reject(new Error('Canvas is empty'));
+        }
+      }, 'image/jpeg');
+    });
+  } catch (error) {
+    console.error('Error during image cropping:', error);
+    throw error;
+  }
+};
