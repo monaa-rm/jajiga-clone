@@ -78,7 +78,7 @@ const Endbutton = () => {
       if (typeof item.file === "string") {
         let myfile;
 
-        if (item.type === "image/heic") {
+    if (item.name.endsWith("HEIC") || item.name.endsWith("HEIF")) {
           const heicBlob = await (await fetch(item.file)).blob();
           myfile = await normalConvertHEICToJPEG(heicBlob);
         } else {
