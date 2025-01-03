@@ -100,7 +100,7 @@ const Endbutton = () => {
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       }else{
-        toast.warning(res.data.join(', ')); 
+        toast.warning("dddddddddddd"); 
         
       }
     } catch (error) {
