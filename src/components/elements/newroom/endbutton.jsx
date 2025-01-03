@@ -97,7 +97,7 @@ const Endbutton = () => {
         body: formData,
       });
       alert("pppppppp")
-      alert(res.status)
+      alert(res)
       if (res.status == 201) {
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
