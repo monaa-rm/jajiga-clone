@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { normalConvertHEICToJPEG } from "../../../../utils/convertHeic";
 
 const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
   const byteCharacters = atob(base64.split(",")[1]);
@@ -74,27 +73,17 @@ const Endbutton = () => {
     formData.append("discount", JSON.stringify(discount ?? 0));
 
     if (Array.isArray(images)) {
-    const imagePromises = images.map(async (item, index) => {
-      if (typeof item.file === "string") {
-        let myfile;
-
-    if (item.name.endsWith("HEIC") || item.name.endsWith("HEIF")) {
-          const heicBlob = await (await fetch(item.file)).blob();
-          myfile = await normalConvertHEICToJPEG(heicBlob);
+      images.forEach((item, index) => {
+        if (typeof item.file === "string") {
+          // Convert Base64 string back to Blob
+          const contentType = item.type; // Use the saved file type
+          const myfile = base64ToFile(item.file, item.name, item.type);
+          formData.append(`images-${index}`, myfile);
         } else {
-          const contentType = item.type;
-          myfile = base64ToFile(item.file, item.name, contentType);
+          console.error(`images[${index}] is not a valid Base64 string`);
         }
-
-        formData.append(`images-${index}`, myfile);
-      } else {
-        console.error(`images[${index}] is not a valid Base64 string`);
-      }
-    });
-
-    await Promise.all(imagePromises);
-  } 
-     else {
+      });
+    } else {
       console.error("images is not an array");
     }
 
@@ -111,6 +100,7 @@ const Endbutton = () => {
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       } else {
+        alert(data.status)
         toast.warning("مشکلی پیش آمده است");
       }
     } catch (error) {
