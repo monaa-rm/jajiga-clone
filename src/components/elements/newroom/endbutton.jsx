@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { normalConvertHEICToJPEG } from "../../../../utils/convertHeic";
 
 const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
   const byteCharacters = atob(base64.split(",")[1]);
@@ -73,42 +74,48 @@ const Endbutton = () => {
     formData.append("discount", JSON.stringify(discount ?? 0));
 
     if (Array.isArray(images)) {
-      images.forEach((item, index) => {
-        if (typeof item.file === "string") {
-          // Convert Base64 string back to Blob
-          const contentType = item.type; // Use the saved file type
-          const myfile = base64ToFile(item.file, item.name, item.type);
-          formData.append(`images-${index}`, myfile);
+    const imagePromises = images.map(async (item, index) => {
+      if (typeof item.file === "string") {
+        let myfile;
+
+        if (item.type === "image/heic") {
+          const heicBlob = await (await fetch(item.file)).blob();
+          myfile = await normalConvertHEICToJPEG(heicBlob);
         } else {
-          console.error(`images[${index}] is not a valid Base64 string`);
+          const contentType = item.type;
+          myfile = base64ToFile(item.file, item.name, contentType);
         }
-      });
-    } else {
+
+        formData.append(`images-${index}`, myfile);
+      } else {
+        console.error(`images[${index}] is not a valid Base64 string`);
+      }
+    });
+
+    await Promise.all(imagePromises);
+  } 
+     else {
       console.error("images is not an array");
     }
 
     for (let pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    
     try {
       const res = await fetch("/api/newroom", {
         method: "POST",
         body: formData,
       });
-      alert("pppppppp")
-      alert(res)
       if (res.status == 201) {
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
-      }else{
-        toast.warning("dddddddddddd"); 
-        
+      } else {
+        toast.warning("مشکلی پیش آمده است");
       }
     } catch (error) {
       console.log(error);
-      toast.warning("مشکلی پیش آمده است...");
+      toast.warning("مشکلی پیش آمده است");
     }
     setLoading(false);
   };
