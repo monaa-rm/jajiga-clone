@@ -30,6 +30,23 @@ export function convertHEIC(file) {
       reject(new Error("Error reading the file: " + error.message));
     };
 
+
+    
+export const normalConvertHEICToJPEG = async (heicBlob) => {
+  try {
+    const jpegBlob = await heic2any({
+      blob: heicBlob,
+      toType: "image/jpeg",
+      quality: 0.8, // کیفیت JPEG را تنظیم کنید (0 تا 1)
+    });
+    return jpegBlob;
+  } catch (error) {
+    console.error("Error converting HEIC to JPEG:", error);
+    throw new Error("Failed to convert HEIC to JPEG"); // خطا را به تابع فراخوان ریدایرکت می کنیم.
+  }
+};
+
+
     // خواندن فایل HEIC به‌صورت ArrayBuffer
     reader.readAsArrayBuffer(file);
   });
