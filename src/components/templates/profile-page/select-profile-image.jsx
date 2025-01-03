@@ -38,7 +38,7 @@ const SelectProfileImage = ({ showImageBox, setShowImageBox }) => {
     if (file) {
       // console.log("file 000" , file)
       setFilename(file.name);
-      if (file.name.endsWith("HEIC") || file.type.endsWith("HEIF")) {
+      if (file.name.endsWith("HEIC") || file.name.endsWith("HEIF")) {
         try {
           // تبدیل HEIC به JPEG
           const convertedBlob = await convertHEIC(file);
