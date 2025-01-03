@@ -13,10 +13,13 @@ import { authOptions } from "../auth/[...nextauth]/route";
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 export async function POST(req) {
+    
+  console.log("staart");
   const resultLog = [];
   try {
     await connectDB();
-
+    console.log("1");
+    resultLog.push("1");
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
@@ -25,9 +28,8 @@ export async function POST(req) {
       );
     }
 
-    console.log("1");
-    resultLog.push("1");
-    console.log("session", session);
+
+    console.log("2session", session);
     const user = await User.findOne({ phone: session.user.phone });
 
     if (!user) {
