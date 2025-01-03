@@ -90,11 +90,14 @@ const Endbutton = () => {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
+    
     try {
       const res = await fetch("/api/newroom", {
         method: "POST",
         body: formData,
       });
+      alert("pppppppp")
+      alert(res)
       if (res.status == 201) {
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
