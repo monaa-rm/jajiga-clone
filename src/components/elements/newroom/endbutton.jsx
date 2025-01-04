@@ -105,6 +105,7 @@ const Endbutton = () => {
       }
     } catch (error) {
       console.log(error);
+      alert(error)
       toast.warning("مشکلی پیش آمده است");
     }
     setLoading(false);
