@@ -29,3 +29,8 @@ export function convertHEIC(file) {
     reader.onerror = (error) => {
       reject(new Error("Error reading the file: " + error.message));
     };
+
+    // خواندن فایل HEIC به‌صورت ArrayBuffer
+    reader.readAsArrayBuffer(file);
+  });
+}
