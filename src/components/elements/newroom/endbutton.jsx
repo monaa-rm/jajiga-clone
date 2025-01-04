@@ -71,7 +71,7 @@ const Endbutton = () => {
     formData.append("room", JSON.stringify(room));
     formData.append("checktime", JSON.stringify(checktime));
     formData.append("discount", JSON.stringify(discount ?? 0));
-
+alert("1");
     if (Array.isArray(images)) {
       images.forEach((item, index) => {
         if (typeof item.file === "string") {
@@ -86,27 +86,30 @@ const Endbutton = () => {
     } else {
       console.error("images is not an array");
     }
-
+alert("2");
     for (let pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
     try {
+      alert("3");
       const res = await fetch("/api/newroom", {
         method: "POST",
         body: formData,
       });
+      alert("4");
       if (res.status == 201) {
+        alert("5");
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       } else {
         alert(data.status)
-        toast.warning("مشکلی پیش آمده است");
+        toast.warning("مشکلی پیش آمده است.");
       }
     } catch (error) {
       console.log(error);
       alert(error)
-      toast.warning("مشکلی پیش آمده است");
+      toast.warning("مشکلی پیش آمده است..");
     }
     setLoading(false);
   };
