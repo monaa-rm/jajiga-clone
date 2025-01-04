@@ -79,6 +79,7 @@ alert("1");
           const contentType = item.type; // Use the saved file type
           const myfile = base64ToFile(item.file, item.name, item.type);
           formData.append(`images-${index}`, myfile);
+          console.log(myfile);
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }
