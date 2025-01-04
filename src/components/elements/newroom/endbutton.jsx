@@ -71,7 +71,6 @@ const Endbutton = () => {
     formData.append("room", JSON.stringify(room));
     formData.append("checktime", JSON.stringify(checktime));
     formData.append("discount", JSON.stringify(discount ?? 0));
-alert("1");
     if (Array.isArray(images)) {
       images.forEach((item, index) => {
         if (typeof item.file === "string") {
@@ -79,7 +78,7 @@ alert("1");
           const contentType = item.type; // Use the saved file type
           const myfile = base64ToFile(item.file, item.name, item.type);
           formData.append(`images-${index}`, myfile);
-          console.log(myfile);
+          console.log(index,myfile.name);
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }
@@ -87,19 +86,15 @@ alert("1");
     } else {
       console.error("images is not an array");
     }
-alert("2");
     for (let pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
     try {
-      alert("3");
       const res = await fetch("/api/newroom", {
         method: "POST",
         body: formData,
       });
-      alert("4");
       if (res.status == 201) {
-        alert("5");
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
