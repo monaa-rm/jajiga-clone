@@ -78,7 +78,7 @@ const Endbutton = () => {
           const contentType = item.type; // Use the saved file type
           const myfile = base64ToFile(item.file, item.name, item.type);
           formData.append(`images-${index}`, myfile);
-          console.log(index,myfile.name);
+          console.log(item)
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }
@@ -99,12 +99,10 @@ const Endbutton = () => {
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       } else {
-        alert(res.status)
         toast.warning("مشکلی پیش آمده است.");
       }
     } catch (error) {
       console.log(error);
-      alert(error)
       toast.warning("مشکلی پیش آمده است..");
     }
     setLoading(false);
