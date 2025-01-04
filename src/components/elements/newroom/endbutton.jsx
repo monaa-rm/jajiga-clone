@@ -103,7 +103,7 @@ alert("2");
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       } else {
-        alert(data.status)
+        alert(res.status)
         toast.warning("مشکلی پیش آمده است.");
       }
     } catch (error) {
