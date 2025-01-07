@@ -45,11 +45,6 @@ const CropImageComponent = ({
         rotation
       );
       onCropComplete(croppedImage);
-<<<<<<< HEAD
-      
-=======
-      console.log(croppedImage);
->>>>>>> f50809d8218b487c80bebfe0e56e520f8e34f999
     } catch (e) {
       console.error(e);
     }
@@ -104,7 +99,6 @@ const CropImageComponent = ({
         >
           تایید
         </button>
-
       </div>
       <div className=" absolute bottom-8 w-full mt-3 px-3">
         <div
