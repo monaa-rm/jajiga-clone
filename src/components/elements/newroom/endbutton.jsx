@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { compressImage } from "../../../../utils/compressImage";
 
 const base64ToFile = (base64, fileName, contentType = "", sliceSize = 512) => {
   const byteCharacters = atob(base64.split(",")[1]);
@@ -73,16 +74,20 @@ const Endbutton = () => {
     formData.append("discount", JSON.stringify(discount ?? 0));
 
     if (Array.isArray(images)) {
-      images.forEach((item, index) => {
+      for (const [index, item] of images.entries()) {
         if (typeof item.file === "string") {
-          // Convert Base64 string back to Blob
-          const contentType = item.type; // Use the saved file type
-          const myfile = base64ToFile(item.file, item.name, item.type);
-          formData.append(`images-${index}`, myfile);
+          try {
+            // Convert Base64 string back to Blob
+            const myfile = base64ToFile(item?.file, item?.name, item?.type);
+            const compressFile = await compressImage(myfile);
+            formData.append(`images-${index}`, compressFile);
+          } catch (error) {
+            console.error(`Error processing images[${index}]:`, error);
+          }
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }
-      });
+      }
     } else {
       console.error("images is not an array");
     }
@@ -99,8 +104,10 @@ const Endbutton = () => {
         dispatch(resetState());
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
-      }else{
-        toast.warning("مشکلی پیش آمده است");
+      } else {
+        res?.status == 413
+          ? toast.warning("حجم اطلاعات بالاست")
+          : toast.warning("مشکلی پیش آمده است");
       }
     } catch (error) {
       console.log(error);
