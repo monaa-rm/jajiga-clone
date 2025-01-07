@@ -13,12 +13,22 @@ import { authOptions } from "../auth/[...nextauth]/route";
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 export async function POST(req) {
+<<<<<<< HEAD
   const resultLog = [];
 
   console.log("1");
   try {
     await connectDB();
 
+=======
+    
+  console.log("staart");
+  const resultLog = [];
+  try {
+    await connectDB();
+    console.log("1");
+    resultLog.push("1");
+>>>>>>> f50809d8218b487c80bebfe0e56e520f8e34f999
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
@@ -27,11 +37,18 @@ export async function POST(req) {
       );
     }
 
+<<<<<<< HEAD
     console.log("1");
     resultLog.push("1");
     console.log("session", session);
     const user = await User.findOne({ phone: session.user.phone });
 
+=======
+
+    console.log("2session", session);
+    const user = await User.findOne({ phone: session.user.phone });
+
+>>>>>>> f50809d8218b487c80bebfe0e56e520f8e34f999
     if (!user) {
       return NextResponse.json(
         { error: "حساب کاربری یافت نشد" },

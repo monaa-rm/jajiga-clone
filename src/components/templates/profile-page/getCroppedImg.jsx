@@ -1,4 +1,3 @@
-
 // canvasUtils.js
 
 const createImage = (url) =>

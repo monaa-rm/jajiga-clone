@@ -72,10 +72,10 @@ const Endbutton = () => {
     formData.append("room", JSON.stringify(room));
     formData.append("checktime", JSON.stringify(checktime));
     formData.append("discount", JSON.stringify(discount ?? 0));
-
     if (Array.isArray(images)) {
       for (const [index, item] of images.entries()) {
         if (typeof item.file === "string") {
+<<<<<<< HEAD
           try {
             // Convert Base64 string back to Blob
             const myfile = base64ToFile(item?.file, item?.name, item?.type);
@@ -84,6 +84,13 @@ const Endbutton = () => {
           } catch (error) {
             console.error(`Error processing images[${index}]:`, error);
           }
+=======
+          // Convert Base64 string back to Blob
+          const contentType = item.type; // Use the saved file type
+          const myfile = base64ToFile(item.file, item.name, item.type);
+          formData.append(`images-${index}`, myfile);
+          console.log(item)
+>>>>>>> f50809d8218b487c80bebfe0e56e520f8e34f999
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }
@@ -91,7 +98,6 @@ const Endbutton = () => {
     } else {
       console.error("images is not an array");
     }
-
     for (let pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
@@ -105,13 +111,17 @@ const Endbutton = () => {
         toast.success(`اقامتگاه با موفقیت ثبت شد`);
         router.push("/myrooms");
       } else {
+<<<<<<< HEAD
         res?.status == 413
           ? toast.warning("حجم اطلاعات بالاست")
           : toast.warning("مشکلی پیش آمده است");
+=======
+        toast.warning("مشکلی پیش آمده است.");
+>>>>>>> f50809d8218b487c80bebfe0e56e520f8e34f999
       }
     } catch (error) {
       console.log(error);
-      toast.warning("مشکلی پیش آمده است");
+      toast.warning("مشکلی پیش آمده است..");
     }
     setLoading(false);
   };
