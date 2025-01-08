@@ -14,9 +14,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 export const config = {
     api: {
-        bodyParser: {
-            sizeLimit: '10mb',
-        },
+        bodyParser: false,  // غیرفعال کردن bodyParser داخلی
     },
 };
 
