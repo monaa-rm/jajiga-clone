@@ -12,13 +12,6 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
-export const config = {
-    api: {
-        bodyParser: false,  // غیرفعال کردن bodyParser داخلی
-    },
-};
-
-
 export async function POST(req) {
   let resultLog = [];
 
@@ -204,3 +197,9 @@ export async function POST(req) {
     return NextResponse.json({ data: resultLog }, { status: 500 });
   }
 }
+
+export const config = {
+    api: {
+        bodyParser: false,  // غیرفعال کردن bodyParser داخلی
+    },
+};
