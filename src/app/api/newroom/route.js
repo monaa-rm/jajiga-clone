@@ -197,3 +197,11 @@ export async function POST(req) {
     return NextResponse.json({ data: resultLog }, { status: 500 });
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '25mb',
+    },
+  },
+}
