@@ -195,7 +195,7 @@ const NewroomImages = () => {
       </span>
       <ul className="list-disc list-outside pr-4 font-[vazirRegular] text-sm text-gray-700">
         <li className="leading-9 text-justify">
-          حداقل 10 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس
+         6 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس
           بهداشتی، حیاط و نمای ساختمان آپلود کنید.
         </li>
         <li className="leading-9 text-justify">
