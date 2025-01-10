@@ -180,9 +180,9 @@ export async function POST(req) {
       userId: user._id,
     });
 
-    return NextResponse.json({ data: "done" }, { status: 201 });
+    return NextResponse.json({ data: "success" }, { status: 201 });
   } catch (error) {
     console.log("مشکلی در سرور پیش آمده است");
-    return NextResponse.json({  data: "errorr"  }, { status: 500 });
+    return NextResponse.json({ data: "error" }, { status: 500 });
   }
 }
