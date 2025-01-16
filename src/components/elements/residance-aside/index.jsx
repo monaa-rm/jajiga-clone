@@ -93,7 +93,7 @@ const ResidanceAside = ({
             theme: "light",
    
             });
-          router.push("/");
+          router.push("/reserves");
           setLoading(false);
         } else {
           setLoading(false);

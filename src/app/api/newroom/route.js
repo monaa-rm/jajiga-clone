@@ -13,12 +13,10 @@ import { authOptions } from "../auth/[...nextauth]/route";
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 export async function POST(req) {
-  let resultLog = [];
 
   try {
     await connectDB();
     console.log("1");
-    resultLog.push("1");
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
@@ -27,7 +25,6 @@ export async function POST(req) {
       );
     }
 
-    resultLog.push("1");
     console.log("session", session);
     const user = await User.findOne({ phone: session.user.phone });
 
@@ -39,7 +36,6 @@ export async function POST(req) {
       );
     }
     console.log("2");
-    resultLog.push("2");
     const formData = await req.formData();
 
     const address = await formData.get("address");
@@ -62,7 +58,6 @@ export async function POST(req) {
     const discount = await formData.get("discount");
     const rules = await formData.get("rules");
     console.log("3");
-    resultLog.push("3");
     const images = [];
     let index = 0;
     let finalFilePaths = [];
@@ -73,7 +68,6 @@ export async function POST(req) {
       index++;
     }
     console.log("4");
-    resultLog.push("4");
     for (const imgFile of images) {
       const buffer = Buffer.from(await imgFile.arrayBuffer());
       // const pathDist = join(process.cwd(), "/public/images/residanceImages");
@@ -123,20 +117,16 @@ export async function POST(req) {
       try {
         await client.send(new PutObjectCommand(params));
         console.log("5");
-        resultLog.push("5");
       } catch (error) {
         console.log(error);
-        resultLog.push("55");
       }
 
       // callback
       client.send(new PutObjectCommand(params), (error, data) => {
         if (error) {
           console.log(error);
-          resultLog.push("66");
         } else {
           console.log(data);
-          resultLog.push("7");
           const finalFilePath = `${process.env.GOAL_HOST_URL}/jajiga-rooms/${filename}`;
           finalFilePaths.push(finalFilePath);
         }
@@ -145,7 +135,6 @@ export async function POST(req) {
       //   process.env.NEXT_PUBLIC_IMAGE_PATH + `${relativeUploadDir}/${filename}`;
     }
     // send to database-----------------
-    resultLog.push("res");
     console.log("user-------------", {
       address: JSON.parse(address),
       location: JSON.parse(location),
@@ -191,9 +180,9 @@ export async function POST(req) {
       userId: user._id,
     });
 
-    return NextResponse.json({ data: resultLog }, { status: 201 });
+    return NextResponse.json({ data: "success" }, { status: 201 });
   } catch (error) {
     console.log("مشکلی در سرور پیش آمده است");
-    return NextResponse.json({ data: resultLog }, { status: 500 });
+    return NextResponse.json({ data: "error" }, { status: 500 });
   }
 }

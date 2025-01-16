@@ -89,6 +89,7 @@ const Endbutton = () => {
           const myfile = base64ToFile(item.file, item.name, item.type);
           formData.append(`images-${index}`, myfile);
           console.log(item)
+
         } else {
           console.error(`images[${index}] is not a valid Base64 string`);
         }

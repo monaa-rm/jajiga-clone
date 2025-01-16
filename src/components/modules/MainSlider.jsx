@@ -8,7 +8,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import MainSliderItem from "../elements/main-slider-item";
 import SliderLastItem from "../elements/slider-last-item";
 
-const MainSlider = ({ items,excelent_num , title,q ,discount }) => {
+const MainSlider = ({ items, excelent_num, title, q, discount }) => {
   const [showArrow, setShowArrow] = useState(-1);
   const [currentSlide, setCurrentSlide] = useState({
     oldIndex: null,
@@ -27,7 +27,7 @@ const MainSlider = ({ items,excelent_num , title,q ,discount }) => {
     infinite: false,
     slidesToShow: 3,
     slidesToScroll: 2,
-
+    // rtl: true,
     speed: 300,
     arrows: false,
     initialSlide: items?.length - 1,
@@ -54,7 +54,7 @@ const MainSlider = ({ items,excelent_num , title,q ,discount }) => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -76,10 +76,16 @@ const MainSlider = ({ items,excelent_num , title,q ,discount }) => {
       >
         {items?.length &&
           items?.map((item, i) =>
-            i == items?.length -1 ? (
-             <SliderLastItem key={i} item={item} excelent_num={excelent_num} title={title} q={q}/>
+            i == items?.length - 1 ? (
+              <SliderLastItem
+                key={i}
+                item={item}
+                excelent_num={excelent_num}
+                title={title}
+                q={q}
+              />
             ) : (
-              <MainSliderItem key={i} item={item} i={i}  discount={discount}  />
+              <MainSliderItem key={i} item={item} i={i} discount={discount} />
             )
           )}
       </Slider>

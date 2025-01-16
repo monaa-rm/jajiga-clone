@@ -45,7 +45,7 @@ const HeaderContainer = () => {
       if (header && pathname == "/" && !pathname.startsWith("/s")) {
         header.style.zIndex = 0;
         if (window.scrollY > 800) {
-          header.style.top = "-200px";
+          header.style.top = "-500px";
         } else {
           header.style.top = "0";
         }

@@ -9,6 +9,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "@/store/slices/newRoomSlice";
 import { convertHEIC } from "../../../../utils/convertHeic";
+import { toast } from "react-toastify";
 
 const ItemType = "ITEM";
 const convertToBase64 = (file) => {
@@ -125,7 +126,6 @@ const Container = ({ items }) => {
 
 const NewroomImages = () => {
   const images = useSelector((store) => store.newRoomSlice.images);
-  const [imageFiles, setImageFiles] = useState([]);
 
   const dispatch = useDispatch();
   // const handleFileChange = async (e) => {
@@ -148,9 +148,16 @@ const NewroomImages = () => {
   // };
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
+
+    toast.warning("ممکن است چند ثانیه طول بکشد");
     const newItems = await Promise.all(
       files
-        .filter((file) => file?.type.startsWith("image/") || file.name.endsWith("HEIC") || file.name.endsWith("HEIF")) // فیلتر بر اساس نوع فایل
+        .filter(
+          (file) =>
+            file?.type.startsWith("image/") ||
+            file.name.endsWith("HEIC") ||
+            file.name.endsWith("HEIF")
+        ) // فیلتر بر اساس نوع فایل
         .map(async (file, index) => {
           let base64;
 
@@ -182,8 +189,16 @@ const NewroomImages = () => {
 
     // حذف نتایج null از آرایه نهایی
     const filteredItems = newItems.filter((item) => item !== null);
-
-    dispatch(setImages([...images, ...filteredItems]));
+    if (
+      filteredItems?.length > 6 ||
+      images?.length > 6 ||
+      images?.length + filteredItems?.length > 6
+    ) {
+      toast.warning("تعداد فایل های انتخاب شده زیاد است");
+      e.target.files = null;
+    } else {
+      dispatch(setImages([...images, ...filteredItems]));
+    }
   };
 
   return (
@@ -195,8 +210,8 @@ const NewroomImages = () => {
       </span>
       <ul className="list-disc list-outside pr-4 font-[vazirRegular] text-sm text-gray-700">
         <li className="leading-9 text-justify">
-          حداقل 10 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس
-          بهداشتی، حیاط و نمای ساختمان آپلود کنید.
+          6 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس بهداشتی،
+          حیاط و نمای ساختمان آپلود کنید.
         </li>
         <li className="leading-9 text-justify">
           ترجیحاً از تصاویر افقی (Landscape) استفاده کنید.
