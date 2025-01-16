@@ -210,13 +210,8 @@ const NewroomImages = () => {
       </span>
       <ul className="list-disc list-outside pr-4 font-[vazirRegular] text-sm text-gray-700">
         <li className="leading-9 text-justify">
-<<<<<<< HEAD
-          6 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس بهداشتی،
-          حیاط و نمای ساختمان آپلود کنید.
-=======
          6 عکسِ باکیفیت، از پذیرایی، اتاق خواب ها، آشپزخانه، سرویس
           بهداشتی، حیاط و نمای ساختمان آپلود کنید.
->>>>>>> 2550935d88a9b487a597442aba7378ef08d14337
         </li>
         <li className="leading-9 text-justify">
           ترجیحاً از تصاویر افقی (Landscape) استفاده کنید.
