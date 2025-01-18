@@ -6,10 +6,11 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { MdOutlineElectricBolt } from "react-icons/md";
 
-const MainSliderItem = ({ item, discount }) => {
+const MainSliderItem = ({ item, discount ,i }) => {
   const [dragCtrl, setDragCtrl] = useState(false);
   return (
     <div className="p-2 relative">
+
       <Link
         draggable={false}
         onMouseMove={(e) => {

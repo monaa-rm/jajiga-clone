@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Slider from "react-slick";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { MdArrowBackIos } from "react-icons/md";
@@ -9,12 +9,26 @@ import MainSliderItem from "../elements/main-slider-item";
 import SliderLastItem from "../elements/slider-last-item";
 
 const MainSlider = ({ items, excelent_num, title, q, discount }) => {
+  console.log(q, items.length);
   const [showArrow, setShowArrow] = useState(-1);
+  // const [initialSlide , setInitialSlide] = useState(0)
   const [currentSlide, setCurrentSlide] = useState({
     oldIndex: null,
     newIndex: null,
   });
-
+ 
+  const initialSlide = useMemo(() => {
+    if (items?.length === 1) {
+      return items.length - 1;
+    } else if (items?.length === 2) {
+      if (window.innerWidth < 600) return items.length - 1;
+      if (window.innerWidth < 900) return items.length - 2;
+    } else {
+      if (window.innerWidth < 600) return items.length - 1;
+      if (window.innerWidth < 900) return items.length - 2;
+      if (window.innerWidth > 900) return items.length - 3;
+    }
+  }, [items]);
   let sliderRef = useRef(null);
   const next = () => {
     sliderRef.slickPrev();
@@ -23,6 +37,8 @@ const MainSlider = ({ items, excelent_num, title, q, discount }) => {
     sliderRef.slickNext();
   };
   var settings = {
+    // autoplay: true,
+    // speed: 2000,
     dots: false,
     infinite: false,
     slidesToShow: 3,
@@ -30,25 +46,18 @@ const MainSlider = ({ items, excelent_num, title, q, discount }) => {
     // rtl: true,
     speed: 300,
     arrows: false,
-    initialSlide: items?.length - 1,
+    centerMode: false,
+    initialSlide: initialSlide,
     beforeChange: (oldIndex, newIndex) => {
       setCurrentSlide({ oldIndex, newIndex });
     },
     responsive: [
       {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-          initialSlide: 0,
-        },
-      },
-      {
         breakpoint: 900,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 0,
+          // initialSlide: 0,
         },
       },
       {
@@ -56,6 +65,7 @@ const MainSlider = ({ items, excelent_num, title, q, discount }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          // initialSlide: 0,
         },
       },
     ],
@@ -63,7 +73,7 @@ const MainSlider = ({ items, excelent_num, title, q, discount }) => {
 
   return (
     <div
-      dir="rtl"
+      // dir="rtl"
       className={`px-0 relative`}
       onMouseOver={() => setShowArrow(1)}
       onMouseLeave={() => setShowArrow(-1)}
@@ -76,16 +86,17 @@ const MainSlider = ({ items, excelent_num, title, q, discount }) => {
       >
         {items?.length &&
           items?.map((item, i) =>
-            i == items?.length - 1 ? (
+            i != 0 ? (
+              <MainSliderItem key={i} item={item} i={i} discount={discount} />
+            ) : (
               <SliderLastItem
                 key={i}
+                i={i}
                 item={item}
                 excelent_num={excelent_num}
                 title={title}
                 q={q}
               />
-            ) : (
-              <MainSliderItem key={i} item={item} i={i} discount={discount} />
             )
           )}
       </Slider>

@@ -34,13 +34,15 @@ const DiscountResidance = () => {
       setSelectedCity={setSelectedCity}
       title={"تخفیف های سفر انگیز"}
     >
-      <MainSlider
-        items={data}
-        excelent_num={JSON.parse(JSON.stringify(totalItems))}
-        discount={true}
-        title={"اقامتگاه تخفیف دار همه شهرها"}
-        q={"discount"}
-      />
+      {data.length ? (
+        <MainSlider
+          items={data}
+          excelent_num={JSON.parse(JSON.stringify(totalItems))}
+          discount={true}
+          title={"اقامتگاه تخفیف دار همه شهرها"}
+          q={"discount"}
+        />
+      ) : null}
     </DiscountWrapperSection>
   );
 };

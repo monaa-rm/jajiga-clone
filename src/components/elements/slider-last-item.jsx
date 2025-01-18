@@ -18,7 +18,7 @@ import {
 } from "@/store/slices/filterSlice";
 import { citiesList } from "../../../utils/cities";
 
-const SliderLastItem = ({ item, excelent_num, title, q }) => {
+const SliderLastItem = ({ item, excelent_num, title, q , i }) => {
   const [dragCtrl, setDragCtrl] = useState(false);
   const dispatch = useDispatch();
   const clickHandler = (e) => {
@@ -96,6 +96,7 @@ const SliderLastItem = ({ item, excelent_num, title, q }) => {
               <span className="text-sm">
                 {formatNumberToPersian(excelent_num)} اقامتگاه
               </span>
+
               <FaAngleLeft className="text-xs" />
             </div>
           </div>
